@@ -29,6 +29,9 @@ Route::post('/login', [AuthController::class, 'login']);
 // Route::get('/orders', [OrderController::class, 'index']);
 // Route::get('/orders/{id}', [OrderController::class, 'show']);
 Route::get('/orders/count', [OrderController::class, 'count']);
+Route::get('/orders/status-count', [OrderController::class, 'countByStatus']);
+Route::get('/orders/revenue', [OrderController::class, 'revenue']);
+
 
 
 

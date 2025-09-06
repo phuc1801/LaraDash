@@ -24,6 +24,8 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>  <script type="module" crossorigin src="bootstrap/main-BPhDq89w.js"></script>
   <script type="module" crossorigin src="bootstrap/orders-BCZLXwp9.js"></script>
   <link rel="stylesheet" crossorigin href="bootstrap/main-D9K-blpF.css">
+  
+  <!-- <script type="module" src="assets/js/orders.js"></script> -->
 </head>
 
 <body data-page="orders" class="order-management">
@@ -287,7 +289,19 @@
                                             <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
                                                 <i class="bi bi-clock"></i>
                                             </div>
-                                            <div>
+                                            <div x-data="{
+                                                    stats: { pending: 0, completed: 0 },
+                                                    init() {
+                                                        fetch('/api/orders/status-count')
+                                                            .then(res => res.json())
+                                                            .then(data => {
+                                                                if (data.status) {
+                                                                    this.stats.pending = data.pending;
+                                                                    this.stats.completed = data.completed;
+                                                                }
+                                                            })
+                                                    }
+                                                }" x-init="init()">
                                                 <h6 class="mb-0 text-muted">Chưa giải quyết</h6>
                                                 <h3 class="mb-0" x-text="stats.pending"></h3>
                                                 <small class="text-warning">
@@ -305,9 +319,21 @@
                                             <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
                                                 <i class="bi bi-truck"></i>
                                             </div>
-                                            <div>
+                                            <div x-data="{
+                                                    stats: { pending: 0, completed: 0 },
+                                                    init() {
+                                                        fetch('/api/orders/status-count')
+                                                            .then(res => res.json())
+                                                            .then(data => {
+                                                                if (data.status) {
+                                                                    this.stats.pending = data.pending;
+                                                                    this.stats.completed = data.completed;
+                                                                }
+                                                            })
+                                                    }
+                                                }" x-init="init()">
                                                 <h6 class="mb-0 text-muted">Đã vận chuyển</h6>
-                                                <h3 class="mb-0" x-text="stats.shipped"></h3>
+                                                <h3 class="mb-0" x-text="stats.completed"></h3>
                                                 <small class="text-info">
                                                     <i class="bi bi-arrow-right"></i> Đang chuyển tiếp
                                                 </small>
@@ -323,9 +349,9 @@
                                             <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
                                                 <i class="bi bi-currency-dollar"></i>
                                             </div>
-                                            <div>
+                                            <div x-data="statsCard()" x-init="init()">
                                                 <h6 class="mb-0 text-muted">Doanh thu</h6>
-                                                <h3 class="mb-0" x-text="`$${stats.revenue.toLocaleString()}`"></h3>
+                                                <h3 class="mb-0" x-text="`${total.toLocaleString()}`"></h3>
                                                 <small class="text-success">
                                                     <i class="bi bi-arrow-up"></i> +8% từ tuần trước
                                                 </small>
@@ -451,23 +477,27 @@
                                 </div>
 
                                 <!-- Table -->
-                                <div class="table-responsive">
+                                <div 
+                                    x-data="ordersTable()" 
+                                    x-init="fetchOrders()" 
+                                    class="table-responsive">
+
                                     <table class="table table-hover mb-0">
                                         <thead class="table-light">
                                             <tr>
                                                 <th style="width: 40px;">
                                                     <input type="checkbox" 
-                                                           class="form-check-input" 
-                                                           @change="toggleAll($event.target.checked)"
-                                                           :checked="selectedOrders.length === filteredOrders.length && filteredOrders.length > 0">
+                                                        class="form-check-input" 
+                                                        @change="toggleAll($event.target.checked)"
+                                                        :checked="selectedOrders.length === filteredOrders.length && filteredOrders.length > 0">
                                                 </th>
-                                                <th @click="sortBy('orderNumber')" class="sortable">Order #</th>
-                                                <th>Customer</th>
-                                                <th>Items</th>
-                                                <th @click="sortBy('total')" class="sortable">Total</th>
-                                                <th>Status</th>
-                                                <th @click="sortBy('orderDate')" class="sortable">Date</th>
-                                                <th style="width: 120px;">Actions</th>
+                                                <th @click="sortBy('orderNumber')" class="sortable">Mã đơn hàng #</th>
+                                                <th>Khách hàng</th>
+                                                <th>Đơn hàng</th>
+                                                <th @click="sortBy('total')" class="sortable">Tổng giá trị đơn hàng</th>
+                                                <th>Trạng thái</th>
+                                                <th @click="sortBy('orderDate')" class="sortable">Ngày mua hàng</th>
+                                                <th style="width: 120px;">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -475,19 +505,19 @@
                                                 <tr>
                                                     <td>
                                                         <input type="checkbox" 
-                                                               class="form-check-input" 
-                                                               :value="order.id"
-                                                               x-model="selectedOrders">
+                                                            class="form-check-input" 
+                                                            :value="order.id"
+                                                            x-model="selectedOrders">
                                                     </td>
                                                     <td>
                                                         <div class="fw-medium" x-text="order.orderNumber"></div>
                                                         <small class="text-muted" x-text="'ID: ' + order.id"></small>
                                                     </td>
                                                     <td>
-                                                        <div class="order-customer">
-                                                            <img :src="order.customer.avatar" 
-                                                                 class="customer-avatar" 
-                                                                 :alt="order.customer.name">
+                                                        <div class="order-customer d-flex align-items-center">
+                                                            <img :src="order.customer.avatar || 'https://via.placeholder.com/40'" 
+                                                                class="customer-avatar rounded-circle me-2" 
+                                                                :alt="order.customer.name" width="40" height="40">
                                                             <div>
                                                                 <div class="fw-medium" x-text="order.customer.name"></div>
                                                                 <small class="text-muted" x-text="order.customer.email"></small>
@@ -496,21 +526,18 @@
                                                     </td>
                                                     <td>
                                                         <div class="order-items">
-                                                            <div x-text="order.itemCount + ' item' + (order.itemCount > 1 ? 's' : '')"></div>
-                                                            <small class="text-muted" x-text="order.items[0].name + (order.itemCount > 1 ? ' +' + (order.itemCount - 1) + ' more' : '')"></small>
+                                                            <div x-text="order.itemCount + ' sản phẩm'"></div>
+                                                            <small class="text-muted" 
+                                                                x-text="order.items[0].name + (order.itemCount > 1 ? ' +' + (order.itemCount - 1) + ' sản phẩm khác' : '')">
+                                                            </small>
                                                         </div>
                                                     </td>
-                                                    <td class="fw-medium" x-text="`$${order.total}`"></td>
+                                                    <td class="fw-medium" x-text="formatCurrency(order.total)"></td>
                                                     <td>
-                                                        <span class="order-status" 
-                                                              :class="{
-                                                                  'status-pending': order.status === 'pending',
-                                                                  'status-processing': order.status === 'processing',
-                                                                  'status-shipped': order.status === 'shipped',
-                                                                  'status-delivered': order.status === 'delivered',
-                                                                  'status-cancelled': order.status === 'cancelled'
-                                                              }"
-                                                              x-text="order.status.charAt(0).toUpperCase() + order.status.slice(1)"></span>
+                                                        <span class="order-status badge" 
+                                                            :class="statusClass(order.status)" 
+                                                            x-text="capitalize(order.status)">
+                                                        </span>
                                                     </td>
                                                     <td x-text="order.orderDate"></td>
                                                     <td>
@@ -522,17 +549,17 @@
                                                             </button>
                                                             <ul class="dropdown-menu">
                                                                 <li><a class="dropdown-item" href="#" @click="viewOrder(order)">
-                                                                    <i class="bi bi-eye me-2"></i>View Details
+                                                                    <i class="bi bi-eye me-2"></i>Xem chi tiết
                                                                 </a></li>
                                                                 <li><a class="dropdown-item" href="#" @click="trackOrder(order)">
-                                                                    <i class="bi bi-truck me-2"></i>Track Order
+                                                                    <i class="bi bi-truck me-2"></i>Theo dõi
                                                                 </a></li>
                                                                 <li><a class="dropdown-item" href="#" @click="printInvoice(order)">
-                                                                    <i class="bi bi-printer me-2"></i>Print Invoice
+                                                                    <i class="bi bi-printer me-2"></i>In hoá đơn
                                                                 </a></li>
                                                                 <li><hr class="dropdown-divider"></li>
                                                                 <li><a class="dropdown-item text-danger" href="#" @click="cancelOrder(order)">
-                                                                    <i class="bi bi-x-circle me-2"></i>Cancel Order
+                                                                    <i class="bi bi-x-circle me-2"></i>Huỷ đơn
                                                                 </a></li>
                                                             </ul>
                                                         </div>
@@ -541,31 +568,34 @@
                                             </template>
                                         </tbody>
                                     </table>
-                                </div>
 
-                                <!-- Pagination -->
-                                <div class="d-flex justify-content-between align-items-center p-3">
-                                    <div class="text-muted">
-                                        Showing <span x-text="(currentPage - 1) * itemsPerPage + 1"></span> to 
-                                        <span x-text="Math.min(currentPage * itemsPerPage, filteredOrders.length)"></span> of 
-                                        <span x-text="filteredOrders.length"></span> results
-                                    </div>
-                                    <nav>
-                                        <ul class="pagination pagination-sm mb-0">
-                                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
-                                            </li>
-                                            <template x-for="(page, index) in visiblePages" :key="`page-${index}`">
-                                                <li class="page-item" :class="{ 'active': page === currentPage }">
-                                                    <a class="page-link" href="#" @click.prevent="page !== '...' && goToPage(page)" x-text="page"></a>
+
+                                     <!-- Pagination -->
+                                    <div class="d-flex justify-content-between align-items-center p-3">
+                                        <div class="text-muted">
+                                            Showing <span x-text="(currentPage - 1) * itemsPerPage + 1"></span> to 
+                                            <span x-text="Math.min(currentPage * itemsPerPage, filteredOrders.length)"></span> of 
+                                            <span x-text="filteredOrders.length"></span> results
+                                        </div>
+                                        <nav>
+                                            <ul class="pagination pagination-sm mb-0">
+                                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                                    <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
                                                 </li>
-                                            </template>
-                                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                                <template x-for="(page, index) in visiblePages" :key="`page-${index}`">
+                                                    <li class="page-item" :class="{ 'active': page === currentPage }">
+                                                        <a class="page-link" href="#" @click.prevent="page !== '...' && goToPage(page)" x-text="page"></a>
+                                                    </li>
+                                                </template>
+                                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                                    <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
                                 </div>
+               
+                               
                             </div>
                         </div>
                         
@@ -579,7 +609,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <p class="mb-0 text-muted">© 2025 Modern Bootstrap Admin Template</p>
+                            <p class="mb-0 text-muted">© 2025 Admin Template</p>
                         </div>
                         <div class="col-md-6 text-md-end">
                             <p class="mb-0 text-muted">Built with Bootstrap 5.3.7</p>
@@ -707,6 +737,11 @@
     <!-- Page-specific Component -->
 
     <!-- Main App Script -->
+    <script src="assets/js/orders.js" defer></script>
+    <script src="assets/js/order-items-table.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    
+    
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
