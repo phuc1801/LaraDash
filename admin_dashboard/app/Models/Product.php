@@ -27,4 +27,9 @@ class Product extends Model
         'rating_count',
         
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

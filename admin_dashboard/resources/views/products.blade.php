@@ -21,8 +21,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- ApexCharts CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>  <script type="module" crossorigin src="bootstrap/main-BPhDq89w.js"></script>
-  <script type="module" crossorigin src="bootstrap/products-CUCmWXbQ.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>  
+    <!-- <script type="module" crossorigin src="bootstrap/main-BPhDq89w.js"></script>
+  <script type="module" crossorigin src="bootstrap/products-CUCmWXbQ.js"></script> -->
   <link rel="stylesheet" crossorigin href="bootstrap/main-D9K-blpF.css">
 </head>
 
@@ -241,7 +242,7 @@
                             <h1 class="h3 mb-0">Quản lý sản phẩm</h1>
                             <p class="text-muted mb-0">Quản lý danh mục sản phẩm và hàng tồn kho</p>
                         </div>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2" x-data="productStats()" x-init="init()">
                             <button type="button" class="btn btn-outline-secondary" @click="exportProducts()">
                                 <i class="bi bi-download me-2"></i>Export
                             </button>
@@ -266,13 +267,14 @@
                                             <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
                                                 <i class="bi bi-box"></i>
                                             </div>
-                                            <div>
+                                            <div x-data="productStats">
                                                 <h6 class="mb-0 text-muted">Tổng số sản phẩm</h6>
                                                 <h3 class="mb-0" x-text="stats.total"></h3>
                                                 <small class="text-success">
                                                     <i class="bi bi-arrow-up"></i> +5% từ tháng trước
                                                 </small>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +286,7 @@
                                             <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
                                                 <i class="bi bi-check-circle"></i>
                                             </div>
-                                            <div>
+                                            <div x-data="productStats">
                                                 <h6 class="mb-0 text-muted">Còn hàng</h6>
                                                 <h3 class="mb-0" x-text="stats.inStock"></h3>
                                                 <small class="text-success">
@@ -302,9 +304,9 @@
                                             <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
                                                 <i class="bi bi-exclamation-triangle"></i>
                                             </div>
-                                            <div>
-                                                <h6 class="mb-0 text-muted">Ít hàng</h6>
-                                                <h3 class="mb-0" x-text="stats.lowStock"></h3>
+                                            <div x-data="productStats">
+                                                <h6 class="mb-0 text-muted">Hết hàng</h6>
+                                                <h3 class="mb-0" x-text="stats.outOfStock"></h3>
                                                 <small class="text-warning">
                                                     <i class="bi bi-exclamation-circle"></i> Cần chú ý
                                                 </small>
@@ -320,9 +322,9 @@
                                             <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
                                                 <i class="bi bi-currency-dollar"></i>
                                             </div>
-                                            <div>
+                                            <div x-data="productStats">
                                                 <h6 class="mb-0 text-muted">Tổng giá trị</h6>
-                                                <h3 class="mb-0" x-text="`$${stats.totalValue.toLocaleString()}`"></h3>
+                                                <h3 class="mb-0" x-text="`${stats.totalValue.toLocaleString()}`"></h3>
                                                 <small class="text-info">
                                                     <i class="bi bi-info-circle"></i> Giá trị hàng tồn kho
                                                 </small>
@@ -337,7 +339,7 @@
                         
 
                         <!-- Products Table -->
-                        <div class="card">
+                        <div class="card" x-data="productStats()" x-init="init()">
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col">
@@ -414,13 +416,13 @@
                                                            @change="toggleAll($event.target.checked)"
                                                            :checked="selectedProducts.length === filteredProducts.length && filteredProducts.length > 0">
                                                 </th>
-                                                <th>Product</th>
-                                                <th @click="sortBy('category')" class="sortable">Category</th>
-                                                <th @click="sortBy('price')" class="sortable">Price</th>
-                                                <th @click="sortBy('stock')" class="sortable">Stock</th>
-                                                <th>Status</th>
-                                                <th @click="sortBy('created')" class="sortable">Created</th>
-                                                <th style="width: 120px;">Actions</th>
+                                                <th>Sản phẩm</th>
+                                                <th @click="sortBy('category')" class="sortable">Danh mục</th>
+                                                <th @click="sortBy('price')" class="sortable">Giá</th>
+                                                <th @click="sortBy('stock')" class="sortable">Kho</th>
+                                                <th>Trạng thái</th>
+                                                <th @click="sortBy('created')" class="sortable">Ngày tạo</th>
+                                                <th style="width: 120px;">Hoạt động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -454,7 +456,7 @@
                                                                   'low-stock': product.stock > 0 && product.stock <= 20,
                                                                   'out-of-stock': product.stock === 0
                                                               }"
-                                                              x-text="product.stock + ' units'"></span>
+                                                              x-text="product.stock + ' Đơn vị'"></span>
                                                     </td>
                                                     <td>
                                                         <span class="badge" 
@@ -475,17 +477,17 @@
                                                             </button>
                                                             <ul class="dropdown-menu">
                                                                 <li><a class="dropdown-item" href="#" @click="editProduct(product)">
-                                                                    <i class="bi bi-pencil me-2"></i>Edit
+                                                                    <i class="bi bi-pencil me-2"></i>Sửa
                                                                 </a></li>
                                                                 <li><a class="dropdown-item" href="#" @click="viewProduct(product)">
-                                                                    <i class="bi bi-eye me-2"></i>View Details
+                                                                    <i class="bi bi-eye me-2"></i>Xem chi tiết sản phẩm
                                                                 </a></li>
                                                                 <li><a class="dropdown-item" href="#" @click="duplicateProduct(product)">
-                                                                    <i class="bi bi-copy me-2"></i>Duplicate
+                                                                    <i class="bi bi-copy me-2"></i>Nhân bản sản phẩm
                                                                 </a></li>
                                                                 <li><hr class="dropdown-divider"></li>
                                                                 <li><a class="dropdown-item text-danger" href="#" @click="deleteProduct(product)">
-                                                                    <i class="bi bi-trash me-2"></i>Delete
+                                                                    <i class="bi bi-trash me-2"></i>Xóa
                                                                 </a></li>
                                                             </ul>
                                                         </div>
@@ -549,22 +551,22 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New Product</h5>
+                    <h5 class="modal-title">Thêm sản phẩm mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form x-data="productForm">
                         <div class="row g-3">
                             <div class="col-12">
-                                <label class="form-label">Product Name</label>
+                                <label class="form-label">Tên sản phẩm</label>
                                 <input type="text" class="form-control" x-model="form.name" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">SKU</label>
+                                <label class="form-label">Giá trị thật</label>
                                 <input type="text" class="form-control" x-model="form.sku" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Category</label>
+                                <label class="form-label">Danh mục sản phẩm</label>
                                 <select class="form-select" x-model="form.category" required>
                                     <option value="">Select Category</option>
                                     <option value="electronics">Electronics</option>
@@ -574,19 +576,19 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Price</label>
+                                <label class="form-label">Giá</label>
                                 <input type="number" class="form-control" x-model="form.price" step="0.01" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Stock Quantity</label>
+                                <label class="form-label">Số lượng hàng tồn kho</label>
                                 <input type="number" class="form-control" x-model="form.stock" required>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">Description</label>
+                                <label class="form-label">Mô tả</label>
                                 <textarea class="form-control" x-model="form.description" rows="3"></textarea>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Status</label>
+                                <label class="form-label">Trạng thái</label>
                                 <select class="form-select" x-model="form.status" required>
                                     <option value="">Select Status</option>
                                     <option value="published">Published</option>
@@ -595,13 +597,13 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">Product Image</label>
+                                <label class="form-label">Ảnh sản phẩm</label>
                                 <input type="file" class="form-control" accept="image/*">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" @click="saveProduct()">Save Product</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary" @click="saveProduct()">Lưu sản phẩm</button>
                         </div>
                     </form>
                 </div>
@@ -638,6 +640,11 @@
     </div>
 
     <!-- Page-specific Component -->
+
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="assets/js/product.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
     <!-- Main App Script -->
 

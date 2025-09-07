@@ -12,7 +12,7 @@ class ProductController extends Controller
     //  Danh sách sản phẩm
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('category')->get();
 
         return response()->json([
             'status' => true,
