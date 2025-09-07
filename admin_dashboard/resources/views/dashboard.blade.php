@@ -195,7 +195,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./products.html">
+                            <a class="nav-link" href="{{ route('products') }}">
                                 <i class="bi bi-box"></i>
                                 <span>Sản phẩm</span>
                             </a>

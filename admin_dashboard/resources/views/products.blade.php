@@ -10,20 +10,20 @@
     <meta name="keywords" content="bootstrap, admin, dashboard, products, inventory, e-commerce">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-CvUZKS4z.svg">
-    <link rel="icon" type="image/png" href="./assets/favicon-B_cwPWBd.png">
+    <link rel="icon" type="image/svg+xml" href="bootstrap/favicon-CvUZKS4z.svg">
+    <link rel="icon" type="image/png" href="bootstrap/favicon-B_cwPWBd.png">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="./assets/manifest-DTaoG9pG.json">
+    <link rel="manifest" href="bootstrap/manifest-DTaoG9pG.json">
     
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- ApexCharts CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>  <script type="module" crossorigin src="./assets/main-BPhDq89w.js"></script>
-  <script type="module" crossorigin src="./assets/products-CUCmWXbQ.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-D9K-blpF.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>  <script type="module" crossorigin src="bootstrap/main-BPhDq89w.js"></script>
+  <script type="module" crossorigin src="bootstrap/products-CUCmWXbQ.js"></script>
+  <link rel="stylesheet" crossorigin href="bootstrap/main-D9K-blpF.css">
 </head>
 
 <body data-page="products" class="product-management">
@@ -249,7 +249,7 @@
                                 <i class="bi bi-upload me-2"></i>Import
                             </button>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
-                                <i class="bi bi-plus-lg me-2"></i>Add Product
+                                <i class="bi bi-plus-lg me-2"></i>Thêm sản phẩm
                             </button>
                         </div>
                     </div>
@@ -267,10 +267,10 @@
                                                 <i class="bi bi-box"></i>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 text-muted">Total Products</h6>
+                                                <h6 class="mb-0 text-muted">Tổng số sản phẩm</h6>
                                                 <h3 class="mb-0" x-text="stats.total"></h3>
                                                 <small class="text-success">
-                                                    <i class="bi bi-arrow-up"></i> +5% from last month
+                                                    <i class="bi bi-arrow-up"></i> +5% từ tháng trước
                                                 </small>
                                             </div>
                                         </div>
@@ -285,10 +285,10 @@
                                                 <i class="bi bi-check-circle"></i>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 text-muted">In Stock</h6>
+                                                <h6 class="mb-0 text-muted">Còn hàng</h6>
                                                 <h3 class="mb-0" x-text="stats.inStock"></h3>
                                                 <small class="text-success">
-                                                    <i class="bi bi-arrow-up"></i> Well stocked
+                                                    <i class="bi bi-arrow-up"></i> đầy đủ
                                                 </small>
                                             </div>
                                         </div>
@@ -303,10 +303,10 @@
                                                 <i class="bi bi-exclamation-triangle"></i>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 text-muted">Low Stock</h6>
+                                                <h6 class="mb-0 text-muted">Ít hàng</h6>
                                                 <h3 class="mb-0" x-text="stats.lowStock"></h3>
                                                 <small class="text-warning">
-                                                    <i class="bi bi-exclamation-circle"></i> Needs attention
+                                                    <i class="bi bi-exclamation-circle"></i> Cần chú ý
                                                 </small>
                                             </div>
                                         </div>
@@ -321,10 +321,10 @@
                                                 <i class="bi bi-currency-dollar"></i>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 text-muted">Total Value</h6>
+                                                <h6 class="mb-0 text-muted">Tổng giá trị</h6>
                                                 <h3 class="mb-0" x-text="`$${stats.totalValue.toLocaleString()}`"></h3>
                                                 <small class="text-info">
-                                                    <i class="bi bi-info-circle"></i> Inventory value
+                                                    <i class="bi bi-info-circle"></i> Giá trị hàng tồn kho
                                                 </small>
                                             </div>
                                         </div>
@@ -334,57 +334,14 @@
                         </div>
 
                         <!-- Charts Row -->
-                        <div class="row g-4 g-lg-5 mb-5">
-                            <!-- Sales Performance Chart -->
-                            <div class="col-lg-8">
-                                <div class="card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title mb-0">Sales Performance</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <input type="radio" class="btn-check" name="salesPeriod" id="sales7d" autocomplete="off" checked>
-                                            <label class="btn btn-outline-secondary" for="sales7d">7D</label>
-                                            <input type="radio" class="btn-check" name="salesPeriod" id="sales30d" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="sales30d">30D</label>
-                                            <input type="radio" class="btn-check" name="salesPeriod" id="sales90d" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="sales90d">90D</label>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-3 p-lg-4">
-                                        <div id="salesChart" style="height: 300px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Category Distribution -->
-                            <div class="col-lg-4">
-                                <div class="card h-100">
-                                    <div class="card-header">
-                                        <h5 class="card-title mb-0">Category Distribution</h5>
-                                    </div>
-                                    <div class="card-body p-3 p-lg-4">
-                                        <div id="categoryChart" style="height: 200px;"></div>
-                                        <div class="mt-3">
-                                            <template x-for="category in categoryStats" :key="category.name">
-                                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                                    <span class="small" x-text="category.name"></span>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="small text-muted me-2" x-text="`${category.percentage}%`"></span>
-                                                        <span class="small fw-medium" x-text="category.count"></span>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <!-- Products Table -->
                         <div class="card">
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h5 class="card-title mb-0">Product Catalog</h5>
+                                        <h5 class="card-title mb-0">Danh mục sản phẩm</h5>
                                     </div>
                                     <div class="col-auto">
                                         <div class="d-flex gap-2">

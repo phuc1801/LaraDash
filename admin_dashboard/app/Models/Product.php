@@ -25,6 +25,6 @@ class Product extends Model
         'guarantee',
         'rating_avg',
         'rating_count',
-        'manufacturer',
+        
     ];
 }

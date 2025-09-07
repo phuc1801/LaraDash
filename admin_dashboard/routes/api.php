@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +40,12 @@ Route::get('/orders/revenue', [OrderController::class, 'revenue']);
 Route::apiResource('order-items', OrderItemController::class);
 
 
+
+// product
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);       // lấy danh sách
+    Route::post('/', [ProductController::class, 'store']);      // thêm
+    Route::put('/{product}', [ProductController::class, 'update']); // sửa
+    Route::delete('/{product}', [ProductController::class, 'destroy']); // xóa
+    Route::get('/stats', [ProductController::class, 'stats']);  // thống kê
+});
