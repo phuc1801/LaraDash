@@ -56,7 +56,8 @@ document.addEventListener("alpine:init", () => {
                         stock: p.quantity,
                         status: p.status, // in_stock, out_of_stock, low_stock
                         created: new Date(p.created_at).toLocaleDateString("vi-VN"),
-                        image: "https://via.placeholder.com/60" // ảnh tạm
+                        image: p.primary_image_url,
+                        images: p.all_image_urls 
                     }));
 
                     this.filteredProducts = this.products;

@@ -598,7 +598,7 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Ảnh sản phẩm</label>
-                                <input type="file" class="form-control" accept="image/*">
+                                <input type="file" class="form-control" accept="assets/img">
                             </div>
                         </div>
                         <div class="modal-footer">
