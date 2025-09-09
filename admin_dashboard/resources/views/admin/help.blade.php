@@ -10,18 +10,18 @@
     <meta name="keywords" content="bootstrap, admin, dashboard, help, support, documentation, FAQ, contact">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-CvUZKS4z.svg">
-    <link rel="icon" type="image/png" href="./assets/favicon-B_cwPWBd.png">
+    <link rel="icon" type="image/svg+xml" href="bootstrap/favicon-CvUZKS4z.svg">
+    <link rel="icon" type="image/png" href="bootstrap/favicon-B_cwPWBd.png">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="./assets/manifest-DTaoG9pG.json">
+    <link rel="manifest" href="bootstrap/manifest-DTaoG9pG.json">
     
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">  <script type="module" crossorigin src="./assets/main-BPhDq89w.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script type="module" crossorigin src="./assets/help-CVzdtmCb.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-D9K-blpF.css">
+    <script type="module" crossorigin src="bootstrap/help-CVzdtmCb.js"></script>
+  <link rel="stylesheet" crossorigin href="bootstrap/main-D9K-blpF.css">
 </head>
 
 <body data-page="help" class="help-page">

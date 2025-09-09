@@ -10,11 +10,11 @@
     <meta name="keywords" content="bootstrap, admin, dashboard, users, data tables, CRUD">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-CvUZKS4z.svg">
-    <link rel="icon" type="image/png" href="./assets/favicon-B_cwPWBd.png">
+    <link rel="icon" type="image/svg+xml" href="bootstrap/favicon-CvUZKS4z.svg">
+    <link rel="icon" type="image/png" href="bootstrap/favicon-B_cwPWBd.png">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="./assets/manifest-DTaoG9pG.json">
+    <link rel="manifest" href="bootstrap/manifest-DTaoG9pG.json">
     
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
@@ -26,9 +26,9 @@
     <!-- Styles now in SCSS files -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-<script type="module" crossorigin src="./assets/main-BPhDq89w.js"></script>
-<script type="module" crossorigin src="./assets/users-Dmkc6S2W.js"></script>
-<link rel="stylesheet" crossorigin href="./assets/main-D9K-blpF.css">
+<script type="module" crossorigin src="bootstrap/main-BPhDq89w.js"></script>
+<script type="module" crossorigin src="bootstrap/users-Dmkc6S2W.js"></script>
+<link rel="stylesheet" crossorigin href="bootstrap/main-D9K-blpF.css">
 
 <body data-page="users" class="user-management">
     <!-- Admin App Container -->
@@ -154,32 +154,32 @@
                     <nav class="sidebar-nav">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="./index.html">
+                                <a class="nav-link" href="{{ route('dashboard') }}">
                                     <i class="bi bi-speedometer2"></i>
                                     <span>Trang chủ</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./analytics.html">
+                                <a class="nav-link" href="{{ route('analytics') }}">
                                     <i class="bi bi-graph-up"></i>
                                     <span>Báo cáo thống kê</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="./users.html">
+                                <a class="nav-link active" href="{{ route('users') }}">
                                     <i class="bi bi-people"></i>
                                     <span>Người dùng
                                     <span class="badge bg-primary rounded-pill ms-auto">Active</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./products.html">
+                                <a class="nav-link" href="{{ route('products') }}">
                                     <i class="bi bi-box"></i>
                                     <span>Sản phầm</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./orders.html">
+                                <a class="nav-link" href="{{ route('orders') }}">
                                     <i class="bi bi-bag-check"></i>
                                     <span>Đơn hàng</span>
                                 </a>
@@ -188,14 +188,14 @@
                            
                            
                             <li class="nav-item">
-                                <a class="nav-link" href="./messages.html">
+                                <a class="nav-link" href="{{ route('messages') }}">
                                     <i class="bi bi-chat-dots"></i>
                                     <span>Tin nhắn</span>
                                     <span class="badge bg-danger rounded-pill ms-auto">3</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./calendar.html">
+                                <a class="nav-link" href="{{ route('calendar') }}">
                                     <i class="bi bi-calendar-event"></i>
                                     <span>Sự kiện</span>
                                 </a>
@@ -205,19 +205,19 @@
                                 <small class="text-muted px-3 text-uppercase fw-bold">Admin</small>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./settings.html">
+                                <a class="nav-link" href="{{ route('settings') }}">
                                     <i class="bi bi-gear"></i>
                                     <span>Cài đặt</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./security.html">
+                                <a class="nav-link" href="{{ route('security') }}">
                                     <i class="bi bi-shield-check"></i>
                                     <span>Bảo mật</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./help.html">
+                                <a class="nav-link" href="{{ route('help') }}">
                                     <i class="bi bi-question-circle"></i>
                                     <span>Trợ giúp & Hỗ trợ</span>
                                 </a>
@@ -335,183 +335,10 @@
                             </div>
                         </div>
 
-                        <!-- Enhanced Analytics Widgets Row -->
-                        <div class="row g-4 g-lg-5 g-xl-6 mb-5 mb-lg-5 mb-xl-6">
-                            <!-- User Growth Chart -->
-                            <div class="col-lg-8">
-                                <div class="card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title mb-0">User Registration Trends</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <input type="radio" class="btn-check" name="growthPeriod" id="growth7d" autocomplete="off" checked>
-                                            <label class="btn btn-outline-secondary" for="growth7d">7D</label>
-                                            <input type="radio" class="btn-check" name="growthPeriod" id="growth30d" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="growth30d">30D</label>
-                                            <input type="radio" class="btn-check" name="growthPeriod" id="growth90d" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="growth90d">90D</label>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-3 p-lg-4">
-                                        <div id="userGrowthChart" style="width: 100%; overflow: hidden;"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Role & Department Distribution -->
-                            <div class="col-lg-4">
-                                <div class="card h-100">
-                                    <div class="card-header">
-                                        <h5 class="card-title mb-0">User Distribution</h5>
-                                    </div>
-                                    <div class="card-body p-3 p-lg-4">
-                                        <!-- Role Distribution -->
-                                        <div class="mb-4">
-                                            <h6 class="text-muted mb-3">By Role</h6>
-                                            <div id="roleDistributionChart"></div>
-                                        </div>
-                                        
-                                        <!-- Department Breakdown -->
-                                        <div>
-                                            <h6 class="text-muted mb-3">By Department</h6>
-                                            <template x-for="dept in departmentStats" :key="dept.name">
-                                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                                    <span class="small" x-text="dept.name"></span>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="progress me-2" style="width: 60px; height: 6px;">
-                                                            <div class="progress-bar" 
-                                                                 :style="`width: ${dept.percentage}%; background-color: ${dept.color}`"></div>
-                                                        </div>
-                                                        <span class="small text-muted" x-text="dept.count"></span>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <!-- Activity & Alerts Row -->
-                        <div class="row g-4 g-lg-5 g-xl-6 mb-5 mb-lg-5 mb-xl-6">
-                            <!-- Recent User Activity -->
-                            <div class="col-lg-6">
-                                <div class="card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title mb-0">Recent Activity</h5>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-arrow-clockwise"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <div class="activity-feed" style="max-height: 350px; overflow-y: auto;">
-                                            <template x-for="activity in recentActivities" :key="activity.id">
-                                                <div class="d-flex p-3 border-bottom">
-                                                    <div class="flex-shrink-0 me-3">
-                                                        <div class="activity-icon" 
-                                                             :class="`bg-${activity.type === 'login' ? 'success' : activity.type === 'logout' ? 'secondary' : activity.type === 'register' ? 'primary' : 'warning'} bg-opacity-10`">
-                                                            <i :class="`bi bi-${activity.icon} text-${activity.type === 'login' ? 'success' : activity.type === 'logout' ? 'secondary' : activity.type === 'register' ? 'primary' : 'warning'}`"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <div class="d-flex justify-content-between">
-                                                            <p class="mb-1 small">
-                                                                <strong x-text="activity.user"></strong> 
-                                                                <span x-text="activity.action"></span>
-                                                            </p>
-                                                            <small class="text-muted" x-text="activity.time"></small>
-                                                        </div>
-                                                        <small class="text-muted" x-text="activity.details"></small>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- System Alerts & Quick Actions -->
-                            <div class="col-lg-6">
-                                <div class="row g-4 g-lg-4 h-100">
-                                    <!-- System Alerts -->
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header d-flex justify-content-between align-items-center">
-                                                <h5 class="card-title mb-0">System Alerts</h5>
-                                                <span class="badge bg-danger rounded-pill" x-text="systemAlerts.length"></span>
-                                            </div>
-                                            <div class="card-body p-0">
-                                                <template x-for="alert in systemAlerts.slice(0, 3)" :key="alert.id">
-                                                    <div class="alert mb-0 border-0 border-start-0 rounded-0" 
-                                                         :class="`alert-${alert.type}`">
-                                                        <div class="d-flex justify-content-between align-items-start">
-                                                            <div>
-                                                                <h6 class="alert-heading mb-1" x-text="alert.title"></h6>
-                                                                <p class="mb-0 small" x-text="alert.message"></p>
-                                                            </div>
-                                                            <small class="text-muted" x-text="alert.time"></small>
-                                                        </div>
-                                                    </div>
-                                                </template>
-                                                <template x-if="systemAlerts.length === 0">
-                                                    <div class="text-center p-4 text-muted">
-                                                        <i class="bi bi-check-circle-fill text-success fs-1"></i>
-                                                        <p class="mb-0 mt-2">All systems operational</p>
-                                                    </div>
-                                                </template>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Quick Actions -->
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="card-title mb-0">Quick Actions</h5>
-                                            </div>
-                                            <div class="card-body p-3 p-lg-4">
-                                                <div class="row g-2 g-lg-3">
-                                                    <div class="col-6">
-                                                        <button class="btn btn-outline-primary btn-sm w-100" 
-                                                                data-bs-toggle="modal" data-bs-target="#userModal">
-                                                            <i class="bi bi-person-plus me-1"></i>
-                                                            Add User
-                                                        </button>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <button class="btn btn-outline-info btn-sm w-100"
-                                                                data-bs-toggle="modal" data-bs-target="#importModal">
-                                                            <i class="bi bi-upload me-1"></i>
-                                                            Import
-                                                        </button>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <button class="btn btn-outline-success btn-sm w-100"
-                                                                @click="exportUsers()">
-                                                            <i class="bi bi-download me-1"></i>
-                                                            Export
-                                                        </button>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <button class="btn btn-outline-warning btn-sm w-100"
-                                                                @click="sendBulkInvites()">
-                                                            <i class="bi bi-envelope me-1"></i>
-                                                            Invites
-                                                        </button>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <button class="btn btn-outline-secondary btn-sm w-100"
-                                                                @click="generateReport()">
-                                                            <i class="bi bi-file-earmark-text me-1"></i>
-                                                            Generate Report
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <!-- Users Table -->
                         <div class="card">

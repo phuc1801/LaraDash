@@ -10,18 +10,18 @@
     <meta name="keywords" content="bootstrap, admin, dashboard, calendar, events, scheduling">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-CvUZKS4z.svg">
-    <link rel="icon" type="image/png" href="./assets/favicon-B_cwPWBd.png">
+    <link rel="icon" type="image/svg+xml" href="bootstrap/favicon-CvUZKS4z.svg">
+    <link rel="icon" type="image/png" href="bootstrap/favicon-B_cwPWBd.png">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="./assets/manifest-DTaoG9pG.json">
+    <link rel="manifest" href="bootstrap/manifest-DTaoG9pG.json">
     
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">  <script type="module" crossorigin src="./assets/main-BPhDq89w.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script type="module" crossorigin src="./assets/calendar-Bv9AekZw.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-D9K-blpF.css">
+    <script type="module" crossorigin src="bootstrap/calendar-Bv9AekZw.js"></script>
+  <link rel="stylesheet" crossorigin href="bootstrap/main-D9K-blpF.css">
 </head>
 
 <body data-page="calendar" class="calendar-page">
@@ -148,45 +148,45 @@
                     <nav class="sidebar-nav">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="./index.html">
+                                <a class="nav-link" href="{{ route('dashboard') }}">
                                     <i class="bi bi-speedometer2"></i>
                                     <span>Trang chủ</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./analytics.html">
+                                <a class="nav-link" href="{{ route('analytics') }}">
                                     <i class="bi bi-graph-up"></i>
                                     <span>Báo cáo thống kê</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./users.html">
+                                <a class="nav-link" href="{{ route('users') }}">
                                     <i class="bi bi-people"></i>
                                     <span>Người dùng</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./products.html">
+                                <a class="nav-link" href="{{ route('products') }}">
                                     <i class="bi bi-box"></i>
                                     <span>Sản phẩm</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./orders.html">
+                                <a class="nav-link" href="{{ route('orders') }}">
                                     <i class="bi bi-bag-check"></i>
                                     <span>Đơn hàng</span>
                                 </a>
                             </li>
                            
                             <li class="nav-item">
-                                <a class="nav-link" href="./messages.html">
+                                <a class="nav-link" href="{{ route('messages') }}">
                                     <i class="bi bi-chat-dots"></i>
                                     <span>Tin nhắn</span>
                                     <span class="badge bg-danger rounded-pill ms-auto">3</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="./calendar.html">
+                                <a class="nav-link active" href="{{ route('calendar') }}">
                                     <i class="bi bi-calendar-event"></i>
                                     <span>Sự kiện</span>
                                     <span class="badge bg-primary rounded-pill ms-auto">Active</span>
@@ -197,19 +197,19 @@
                                 <small class="text-muted px-3 text-uppercase fw-bold">Admin</small>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./settings.html">
+                                <a class="nav-link" href="{{ route('settings') }}">
                                     <i class="bi bi-gear"></i>
                                     <span>Cài đặt</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./security.html">
+                                <a class="nav-link" href="{{ route('security') }}">
                                     <i class="bi bi-shield-check"></i>
                                     <span>Bảo mật</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./help.html">
+                                <a class="nav-link" href="{{ route('help') }}">
                                     <i class="bi bi-question-circle"></i>
                                     <span>Trợ giúp & Hỗ trợ</span>
                                 </a>

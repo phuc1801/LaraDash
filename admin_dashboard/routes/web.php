@@ -44,3 +44,31 @@ Route::get('/products', function() {
     return view('products'); 
 })->name('products');
 
+Route::get('/dashboard', function() {
+    return view('dashboard'); 
+})->name('dashboard');
+
+Route::get('/users', function() {
+    return view('users'); 
+})->name('users');
+
+Route::get('/messages', function() {
+    return view('messages'); 
+})->name('messages');
+
+Route::get('/calendar', function() {
+    return view('calendar'); 
+})->name('calendar');
+
+Route::get('/settings', function() {
+    return view('admin.settings');
+})->name('settings');
+
+Route::get('/security', function() {
+    return view('admin.security');
+})->name('security');
+   
+
+Route::get('/help', function() {
+    return view('admin.help'); 
+})->name('help');

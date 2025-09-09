@@ -152,31 +152,31 @@
                     <nav class="sidebar-nav">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="./index.html">
+                                <a class="nav-link" href="{{ route('dashboard') }}">
                                     <i class="bi bi-speedometer2"></i>
                                     <span>Trang chủ</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./analytics.html">
+                                <a class="nav-link" href="{{ route('analytics') }}">
                                     <i class="bi bi-graph-up"></i>
                                     <span>Báo cáo thống kê</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./users.html">
+                                <a class="nav-link" href="{{ route('users') }}">
                                     <i class="bi bi-people"></i>
                                     <span>Người dùng</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./products.html">
+                                <a class="nav-link" href="{{ route('products') }}">
                                     <i class="bi bi-box"></i>
                                     <span>Sản phẩm</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="./orders.html">
+                                <a class="nav-link active" href="{{ route('orders') }}">
                                     <i class="bi bi-bag-check"></i>
                                     <span>Đơn hàng</span>
                                     <span class="badge bg-primary rounded-pill ms-auto">Active</span>
@@ -184,14 +184,14 @@
                             </li>
                             
                             <li class="nav-item">
-                                <a class="nav-link" href="./messages.html">
+                                <a class="nav-link" href="{{ route('messages') }}">
                                     <i class="bi bi-chat-dots"></i>
                                     <span>Tin nhắn</span>
                                     <span class="badge bg-danger rounded-pill ms-auto">3</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./calendar.html">
+                                <a class="nav-link" href="{{ route('calendar') }}">
                                     <i class="bi bi-calendar-event"></i>
                                     <span>Sự kiện</span>
                                 </a>
@@ -201,19 +201,19 @@
                                 <small class="text-muted px-3 text-uppercase fw-bold">Admin</small>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./settings.html">
+                                <a class="nav-link" href="{{ route('settings') }}">
                                     <i class="bi bi-gear"></i>
                                     <span>Cài đặt</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./security.html">
+                                <a class="nav-link" href="{{ route('security') }}">
                                     <i class="bi bi-shield-check"></i>
                                     <span>Bảo mật</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./help.html">
+                                <a class="nav-link" href="{{ route('help') }}">
                                     <i class="bi bi-question-circle"></i>
                                     <span>Help & Support</span>
                                 </a>
@@ -362,51 +362,7 @@
                             </div>
                         </div>
 
-                        <!-- Charts Row -->
-                        <div class="row g-4 g-lg-5 mb-5">
-                            <!-- Order Trends Chart -->
-                            <div class="col-lg-8">
-                                <div class="card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title mb-0">Xu hướng đặt hàng</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <input type="radio" class="btn-check" name="trendsPeriod" id="trends7d" autocomplete="off" checked>
-                                            <label class="btn btn-outline-secondary" for="trends7d">7D</label>
-                                            <input type="radio" class="btn-check" name="trendsPeriod" id="trends30d" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="trends30d">30D</label>
-                                            <input type="radio" class="btn-check" name="trendsPeriod" id="trends90d" autocomplete="off">
-                                            <label class="btn btn-outline-secondary" for="trends90d">90D</label>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-3 p-lg-4">
-                                        <div id="orderTrendsChart" style="height: 300px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Order Status Distribution -->
-                            <div class="col-lg-4">
-                                <div class="card h-100">
-                                    <div class="card-header">
-                                        <h5 class="card-title mb-0">Trạng thái đơn hàng</h5>
-                                    </div>
-                                    <div class="card-body p-3 p-lg-4">
-                                        <div id="statusChart" style="height: 200px;"></div>
-                                        <div class="mt-3">
-                                            <template x-for="status in statusStats" :key="status.name">
-                                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                                    <span class="small" x-text="status.name"></span>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="small text-muted me-2" x-text="`${status.percentage}%`"></span>
-                                                        <span class="small fw-medium" x-text="status.count"></span>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    
 
                         <!-- Orders Table -->
                         <div class="card">
