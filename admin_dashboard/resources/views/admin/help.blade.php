@@ -148,44 +148,44 @@
                     <nav class="sidebar-nav">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="./index.html">
+                                <a class="nav-link" href="{{ route('dashboard') }}">
                                     <i class="bi bi-speedometer2"></i>
                                     <span>Trang chủ</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./analytics.html">
+                                <a class="nav-link" href="{{ route('analytics') }}">
                                     <i class="bi bi-graph-up"></i>
                                     <span>Báo cáo thống kê</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./users.html">
+                                <a class="nav-link" href="{{ route('users') }}">
                                     <i class="bi bi-people"></i>
                                     <span>Người dùng</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./products.html">
+                                <a class="nav-link" href="{{ route('products') }}">
                                     <i class="bi bi-box"></i>
                                     <span>Sản phẩm</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./orders.html">
+                                <a class="nav-link" href="{{ route('orders') }}">
                                     <i class="bi bi-cart"></i>
                                     <span>Đơn hàng</span>
                                 </a>
                             </li>
                             
                             <li class="nav-item">
-                                <a class="nav-link" href="./messages.html">
+                                <a class="nav-link" href="{{ route('messages') }}">
                                     <i class="bi bi-chat-dots"></i>
                                     <span>Tin nhắn</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./calendar.html">
+                                <a class="nav-link" href="{{ route('calendar') }}">
                                     <i class="bi bi-calendar"></i>
                                     <span>Sự kiện</span>
                                 </a>
@@ -195,19 +195,19 @@
                                 <small class="text-muted px-3 text-uppercase fw-bold">Admin</small>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./settings.html">
+                                <a class="nav-link" href="{{ route('settings') }}">
                                     <i class="bi bi-gear"></i>
                                     <span>Cài đặt</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./security.html">
+                                <a class="nav-link" href="{{ route('security') }}">
                                     <i class="bi bi-shield-check"></i>
                                     <span>Bảo mật</span>    
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="./help.html">
+                                <a class="nav-link active" href="{{ route('help') }}">
                                     <i class="bi bi-question-circle"></i>
                                     <span>Trợ giúp & Hỗ trợ</span>
                                 </a>
