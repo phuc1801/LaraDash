@@ -189,6 +189,13 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('article') }}">
+                                <i class="bi bi-pencil-square"></i>
+                                <span>Bài viết</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('users') }}">
                                 <i class="bi bi-people"></i>
                                 <span>Người dùng</span>

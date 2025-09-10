@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ArticleController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +51,17 @@ Route::prefix('products')->group(function () {
     Route::delete('/{product}', [ProductController::class, 'destroy']); // xóa
     Route::get('/stats', [ProductController::class, 'stats']);  // thống kê
 });
+
+
+
+// CRUD bài viết + tìm kiếm
+Route::apiResource('articles', ArticleController::class);
+
+// CRUD ảnh bài viết
+Route::get('articles/{article}/images', [ArticleImageController::class, 'index']);
+Route::post('articles/{article}/images', [ArticleImageController::class, 'store']);
+Route::put('images/{id}', [ArticleImageController::class, 'update']);
+Route::delete('images/{id}', [ArticleImageController::class, 'destroy']);
+
+
+Route::apiResource('articles', ArticleController::class);

@@ -72,3 +72,7 @@ Route::get('/security', function() {
 Route::get('/help', function() {
     return view('admin.help'); 
 })->name('help');
+
+Route::get('/article', function() {
+    return view('article'); 
+})->name('article');
