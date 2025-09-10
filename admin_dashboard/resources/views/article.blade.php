@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body data-page="analytics" class="analytics-page">
@@ -239,183 +240,337 @@
 
             <!-- Main Content -->
             <main class="admin-main">
-                <div class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col">
-                        <h5 class="card-title mb-0">Danh mục sản phẩm</h5>
+
+                <div class="container-fluid p-4 p-lg-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4 mb-lg-5">
+                        <div>
+                            <h1 class="h3 mb-0">Quản lý bài viết</h1>
+                            <p class="text-muted mb-0">
+                            Theo dõi bài viết, quản lý việc xuất bản và phân tích hiệu quả nội dung
+                            </p>
                         </div>
-                        <div class="col-auto">
                         <div class="d-flex gap-2">
-                            <!-- Search -->
-                            <div class="position-relative">
-                            <input 
-                                type="search" 
-                                class="form-control form-control-sm" 
-                                placeholder="Search products..."
-                                x-model="searchQuery"
-                                @input="filterProducts()"
-                                style="width: 200px;"
-                            >
-                            <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
-                            </div>
-
-                            <!-- Category Filter -->
-                            <select 
-                            class="form-select form-select-sm" 
-                            x-model="categoryFilter" 
-                            @change="filterProducts()"
-                            style="width: 150px;"
-                            >
-                            <option value="">All Categories</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="clothing">Clothing</option>
-                            <option value="books">Books</option>
-                            <option value="home">Home & Garden</option>
-                            </select>
-
-                            <!-- Stock Filter -->
-                            <select 
-                            class="form-select form-select-sm" 
-                            x-model="stockFilter" 
-                            @change="filterProducts()"
-                            style="width: 150px;"
-                            >
-                            <option value="">All Stock</option>
-                            <option value="in-stock">In Stock</option>
-                            <option value="low-stock">Low Stock</option>
-                            <option value="out-of-stock">Out of Stock</option>
-                            </select>
-                        </div>
+                            <button type="button" class="btn btn-outline-secondary" @click="exportPosts()">
+                            <i class="bi bi-download me-2"></i>Export
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#bulkUpdateModal">
+                            <i class="bi bi-arrow-repeat me-2"></i>Bulk Update
+                            </button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#postModal">
+                            <i class="bi bi-plus-lg me-2"></i>Tạo bài mới
+                            </button>
                         </div>
                     </div>
-                </div>
-
-
-
-
-                
-
-                <!-- Modal chỉnh sửa bài viết -->
-                <div class="modal fade" id="editArticleModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Article</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                        <label class="form-label">Title</label>
-                        <input type="text" class="form-control" x-model="editArticleData.title">
-                        </div>
-                        <div class="mb-3">
-                        <label class="form-label">Content</label>
-                        <textarea class="form-control" x-model="editArticleData.content" rows="5"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="saveEdit()">Save</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                    </div>
-                </div>
-                </div>
-
-                <!-- Table và Alpine.js -->
-                <div x-data="articlesManager()" x-init="fetchArticles()" class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-light">
-                        <tr>
-                            <th style="width: 40px;">
-                            <input type="checkbox" class="form-check-input"
-                                    @change="toggleAll($event.target.checked)"
-                                    :checked="selectedArticles.length === paginatedArticles.length && paginatedArticles.length > 0">
-                            </th>
-                            <th>Bài viết</th>
-                            <th @click="sortBy('type')" class="sortable">Loại</th>
-                            <th @click="sortBy('user_id')" class="sortable">Tác giả</th>
-                            <th @click="sortBy('created_at')" class="sortable">Ngày tạo</th>
-                            <th style="width: 120px;">Hoạt động</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <template x-for="article in paginatedArticles" :key="article.id">
-                            <tr>
-                            <td><input type="checkbox" class="form-check-input" :value="article.id" x-model="selectedArticles"></td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                <img :src="article.images.length ? 'http://127.0.0.1:8000/assets/img/articles/' + article.images[0].image : 'default.jpg'"
-                                    class="me-3" style="width:50px;height:50px;object-fit:cover;border-radius:5px;">
-                                <div>
-                                    <div class="fw-medium" x-text="article.title"></div>
-                                    <small class="text-muted" x-text="'ID: ' + article.id"></small>
-                                </div>
-                                </div>
-                            </td>
-                            <td><span x-text="article.type"></span></td>
-                            <td x-text="article.author_name"></td>
-                            <td x-text="new Date(article.created_at).toLocaleDateString()"></td>
-                            <td>
-                                <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="bi bi-three-dots"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#" @click.prevent="viewArticle(article)"><i class="bi bi-eye me-2"></i>View</a></li>
-                                    <li><a class="dropdown-item" href="#" @click.prevent="editArticle(article)"><i class="bi bi-pencil me-2"></i>Edit</a></li>
-                                    <li><a class="dropdown-item text-danger" href="#" @click.prevent="deleteArticle(article)"><i class="bi bi-trash me-2"></i>Delete</a></li>
-                                </ul>
-                                </div>
-                            </td>
-                            </tr>
-                        </template>
-                        </tbody>
-                    </table>
-
-                    <!-- Pagination -->
-                    <div class="d-flex justify-content-between align-items-center p-3">
-                        <div class="text-muted">
-                        Showing <span x-text="(currentPage - 1) * itemsPerPage + 1"></span> to 
-                        <span x-text="Math.min(currentPage * itemsPerPage, filteredArticles.length)"></span> of 
-                        <span x-text="filteredArticles.length"></span> results
-                        </div>
-                        <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
-                            </li>
-                            <template x-for="page in totalPages" :key="page">
-                            <li class="page-item" :class="{ 'active': page === currentPage }">
-                                <a class="page-link" href="#" @click.prevent="goToPage(page)" x-text="page"></a>
-                            </li>
-                            </template>
-                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
-                            </li>
-                        </ul>
-                        </nav>
-                    </div>
-
-                    <!-- Modal xem bài viết -->
-                    <div class="modal fade" id="viewArticleModal" tabindex="-1" aria-hidden="true">
+                    <!-- Modal Tạo bài viết -->
+                    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                            <form id="createPostForm">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="postModalLabel">Tạo bài viết mới</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                <!-- Tiêu đề -->
+                                <div class="mb-3">
+                                    <label class="form-label">Tiêu đề</label>
+                                    <input type="text" class="form-control" name="title" required>
+                                </div>
+
+                                <!-- Nội dung -->
+                                <div class="mb-3">
+                                    <label class="form-label">Nội dung</label>
+                                    <textarea class="form-control" name="content" rows="4" required></textarea>
+                                </div>
+
+                                <!-- Type -->
+                                <div class="mb-3">
+                                    <label class="form-label">Type</label>
+                                    <input type="text" class="form-control" name="type" value="1" required>
+                                </div>
+
+                                <!-- User ID -->
+                                <div class="mb-3">
+                                    <label class="form-label">User ID</label>
+                                    <input type="text" class="form-control" name="user_id" value="{{ auth()->id() }}" required>
+                                </div>
+
+                                <!-- Images -->
+                                <div class="mb-3">
+                                    <label class="form-label">Ảnh</label>
+                                    <input type="file" class="form-control" id="images" name="images[]" multiple>
+                                    <div id="previewImages" class="d-flex flex-wrap mt-2 gap-2"></div>
+                                </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Tạo bài viết</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Product Stats Widgets -->
+                    <div class="row g-4 g-lg-5 mb-5">
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card stats-card">
+                            <div class="card-body p-3 p-lg-4">
+                                <div class="d-flex align-items-center">
+                                <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
+                                    <i class="bi bi-box"></i>
+                                </div>
+                                <div x-data="productStats">
+                                    <h6 class="mb-0 text-muted">Tổng số bài viết</h6>
+                                    <h3 class="mb-0" x-text="stats.total"></h3>
+                                    <small class="text-success">
+                                    <i class="bi bi-arrow-up"></i> Đẫ được xuất bản
+                                    </small>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card stats-card">
+                            <div class="card-body p-3 p-lg-4">
+                                <div class="d-flex align-items-center">
+                                <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
+                                    <i class="bi bi-check-circle"></i>
+                                </div>
+                                <div x-data="productStats">
+                                    <h6 class="mb-0 text-muted">Bài viết đã xuất bản</h6>
+                                    <h3 class="mb-0" x-text="stats.inStock"></h3>
+                                    <small class="text-success">
+                                    <i class="bi bi-arrow-up"></i> đầy đủ
+                                    </small>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card stats-card">
+                            <div class="card-body p-3 p-lg-4">
+                                <div class="d-flex align-items-center">
+                                <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                </div>
+                                <div x-data="productStats">
+                                    <h6 class="mb-0 text-muted">Bài viết nháp</h6>
+                                    <h3 class="mb-0" x-text="stats.outOfStock"></h3>
+                                    <small class="text-warning">
+                                    <i class="bi bi-exclamation-circle"></i> Chưa xuất bản
+                                    </small>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card stats-card">
+                            <div class="card-body p-3 p-lg-4">
+                                <div class="d-flex align-items-center">
+                                <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
+                                    <i class="bi bi-currency-dollar"></i>
+                                </div>
+                                <div x-data="productStats">
+                                    <h6 class="mb-0 text-muted">Tương tác</h6>
+                                    <h3 class="mb-0" x-text="`${stats.totalValue.toLocaleString()}`"></h3>
+                                    <small class="text-info">
+                                    <i class="bi bi-arrow-up"></i> Tổng lượt xem
+                                    </small>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                            <h5 class="card-title mb-0">Danh mục sản phẩm</h5>
+                            </div>
+                            <div class="col-auto">
+                            <div class="d-flex gap-2">
+                                <!-- Search -->
+                                <div class="position-relative">
+                                <input 
+                                    type="search" 
+                                    class="form-control form-control-sm" 
+                                    placeholder="Search products..."
+                                    x-model="searchQuery"
+                                    @input="filterProducts()"
+                                    style="width: 200px;"
+                                >
+                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
+                                </div>
+
+                                <!-- Category Filter -->
+                                <select 
+                                class="form-select form-select-sm" 
+                                x-model="categoryFilter" 
+                                @change="filterProducts()"
+                                style="width: 150px;"
+                                >
+                                <option value="">All Categories</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="books">Books</option>
+                                <option value="home">Home & Garden</option>
+                                </select>
+
+                                <!-- Stock Filter -->
+                                <select 
+                                class="form-select form-select-sm" 
+                                x-model="stockFilter" 
+                                @change="filterProducts()"
+                                style="width: 150px;"
+                                >
+                                <option value="">All Stock</option>
+                                <option value="in-stock">In Stock</option>
+                                <option value="low-stock">Low Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                                </select>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    
+
+                    <!-- Modal chỉnh sửa bài viết -->
+                    <div class="modal fade" id="editArticleModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title" x-text="modalTitle"></h5>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Article</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" x-model="editArticleData.title">
                             </div>
-                            <div class="modal-body">
-                            <img x-show="modalImage" :src="modalImage" class="img-fluid mb-3">
-                            <p x-text="modalContent"></p>
+                            <div class="mb-3">
+                            <label class="form-label">Content</label>
+                            <textarea class="form-control" x-model="editArticleData.content" rows="5"></textarea>
                             </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" @click="saveEdit()">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         </div>
                         </div>
                     </div>
-                </div>
+                    </div>
 
+                    <!-- Table và Alpine.js -->
+                    <div x-data="articlesManager()" x-init="fetchArticles()" class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th style="width: 40px;">
+                                <input type="checkbox" class="form-check-input"
+                                        @change="toggleAll($event.target.checked)"
+                                        :checked="selectedArticles.length === paginatedArticles.length && paginatedArticles.length > 0">
+                                </th>
+                                <th>Bài viết</th>
+                                <th @click="sortBy('type')" class="sortable">Loại</th>
+                                <th @click="sortBy('user_id')" class="sortable">Tác giả</th>
+                                <th @click="sortBy('created_at')" class="sortable">Ngày tạo</th>
+                                <th style="width: 120px;">Hoạt động</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template x-for="article in paginatedArticles" :key="article.id">
+                                <tr>
+                                <td><input type="checkbox" class="form-check-input" :value="article.id" x-model="selectedArticles"></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                    <img :src="article.images.length ? 'http://127.0.0.1:8000/assets/img/articles/' + article.images[0].image : 'default.jpg'"
+                                        class="me-3" style="width:50px;height:50px;object-fit:cover;border-radius:5px;">
+                                    <div>
+                                        <div class="fw-medium" x-text="article.title"></div>
+                                        <small class="text-muted" x-text="'ID: ' + article.id"></small>
+                                    </div>
+                                    </div>
+                                </td>
+                                <td><span x-text="article.type"></span></td>
+                                <td x-text="article.author_name"></td>
+                                <td x-text="new Date(article.created_at).toLocaleDateString()"></td>
+                                <td>
+                                    <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" @click.prevent="viewArticle(article)"><i class="bi bi-eye me-2"></i>View</a></li>
+                                        <li><a class="dropdown-item" href="#" @click.prevent="editArticle(article)"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                                        <li><a class="dropdown-item text-danger" href="#" @click.prevent="deleteArticle(article)"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                    </div>
+                                </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center p-3">
+                            <div class="text-muted">
+                            Showing <span x-text="(currentPage - 1) * itemsPerPage + 1"></span> to 
+                            <span x-text="Math.min(currentPage * itemsPerPage, filteredArticles.length)"></span> of 
+                            <span x-text="filteredArticles.length"></span> results
+                            </div>
+                            <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
+                                </li>
+                                <template x-for="page in totalPages" :key="page">
+                                <li class="page-item" :class="{ 'active': page === currentPage }">
+                                    <a class="page-link" href="#" @click.prevent="goToPage(page)" x-text="page"></a>
+                                </li>
+                                </template>
+                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
+                                </li>
+                            </ul>
+                            </nav>
+                        </div>
+
+                        <!-- Modal xem bài viết -->
+                        <div class="modal fade" id="viewArticleModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" x-text="modalTitle"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                <img x-show="modalImage" :src="modalImage" class="img-fluid mb-3">
+                                <p x-text="modalContent"></p>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>

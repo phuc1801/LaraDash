@@ -102,3 +102,66 @@ function articlesManager() {
 
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const postForm = document.getElementById('createPostForm');
+    const imagesInput = document.getElementById('images');
+    const previewContainer = document.getElementById('previewImages');
+
+    // Preview ảnh khi chọn file
+    imagesInput.addEventListener('change', function() {
+        previewContainer.innerHTML = '';
+        Array.from(this.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '80px';
+                img.style.height = '80px';
+                img.style.objectFit = 'cover';
+                img.classList.add('border', 'rounded', 'me-2', 'mb-2');
+                previewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // Submit form tạo bài viết
+    postForm.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const formData = new FormData(postForm);
+
+        // Append file thật
+        Array.from(imagesInput.files).forEach(file => {
+            formData.append('images[]', file);
+        });
+
+        try {
+            const res = await axios.post('/api/articles', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+
+            alert('Tạo bài viết thành công!');
+            postForm.reset();
+            previewContainer.innerHTML = '';
+
+            // Ẩn modal
+            const modalEl = document.getElementById('postModal');
+            bootstrap.Modal.getInstance(modalEl)?.hide();
+
+            // Tự động fetch lại danh sách bài viết từ Alpine component
+            const articlesComponent = document.querySelector('[x-data="articlesManager()"]');
+            if (articlesComponent && articlesComponent.__x) {
+                articlesComponent.__x.getUnobservedData().fetchArticles();
+            }
+            window.location.href = '/article';
+
+        } catch (err) {
+            console.error(err.response?.data || err);
+            alert('Tạo bài viết thất bại! Xem console để biết chi tiết.');
+        }
+    });
+});
