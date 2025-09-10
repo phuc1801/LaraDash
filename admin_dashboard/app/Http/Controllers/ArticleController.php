@@ -5,10 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ArticleController extends Controller
 {
+    protected $uploadPath;
+
+    public function __construct()
+    {
+        // Đường dẫn tuyệt đối đến thư mục public/assets/img/articles
+        $this->uploadPath = public_path('assets/img/articles');
+
+        // Nếu chưa có thư mục thì tạo
+        if (!File::exists($this->uploadPath)) {
+            File::makeDirectory($this->uploadPath, 0777, true, true);
+        }
+    }
+
     // Lấy danh sách bài viết (có ảnh)
     public function index(Request $request)
     {
@@ -36,9 +49,16 @@ class ArticleController extends Controller
         $article = Article::create($request->only(['title','content','type','user_id']));
 
         if ($request->hasFile('images')) {
+            $count = 0;
             foreach ($request->file('images') as $imgFile) {
-                $path = $imgFile->store('articles', 'public');
-                $article->images()->create(['image' => $path]);
+                $count++;
+                $ext = $imgFile->getClientOriginalExtension();
+                $fileName = "article-{$article->id}-{$count}.{$ext}";
+                $imgFile->move($this->uploadPath, $fileName);
+
+                $article->images()->create([
+                    'image' => $fileName
+                ]);
             }
         }
 
@@ -58,37 +78,52 @@ class ArticleController extends Controller
         $article = Article::with('images')->findOrFail($id);
 
         $request->validate([
-            'title' => 'sometimes|required|string|max:255',
+            'title' => 'sometimes|string|max:255',
             'content' => 'nullable|string',
             'type' => 'integer',
             'images.*' => 'image|max:2048',
-            'delete_images' => 'array', // danh sách id ảnh muốn xóa
+            'delete_images' => 'array',
         ]);
 
-        // Cập nhật bài viết
-        $article->update($request->only(['title','content','type']));
+        // ✅ Cập nhật nếu có field
+        $data = $request->only(['title', 'content', 'type']);
+        if (!empty($data)) {
+            $article->update($data);
+        }
 
-        // Xóa ảnh nếu có
-        if ($request->has('delete_images')) {
+        // ✅ Xóa ảnh nếu có
+        if ($request->filled('delete_images')) {
             foreach ($request->delete_images as $imgId) {
                 $img = $article->images()->find($imgId);
                 if ($img) {
-                    Storage::disk('public')->delete($img->image);
+                    $filePath = $this->uploadPath.'/'.$img->image;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
                     $img->delete();
                 }
             }
         }
 
-        // Upload ảnh mới
+        // ✅ Upload ảnh mới
         if ($request->hasFile('images')) {
+            $count = $article->images()->count();
             foreach ($request->file('images') as $imgFile) {
-                $path = $imgFile->store('articles', 'public');
-                $article->images()->create(['image' => $path]);
+                $count++;
+                $ext = $imgFile->getClientOriginalExtension();
+                $fileName = "article-{$article->id}-{$count}.{$ext}";
+
+                $imgFile->move($this->uploadPath, $fileName);
+
+                $article->images()->create([
+                    'image' => $fileName
+                ]);
             }
         }
 
-        return response()->json($article->load('images'));
+        return response()->json($article->fresh('images'));
     }
+
 
     // Xóa bài viết + xóa tất cả ảnh
     public function destroy($id)
@@ -96,7 +131,10 @@ class ArticleController extends Controller
         $article = Article::with('images')->findOrFail($id);
 
         foreach ($article->images as $img) {
-            Storage::disk('public')->delete($img->image);
+            $filePath = public_path($img->image);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
             $img->delete();
         }
 
