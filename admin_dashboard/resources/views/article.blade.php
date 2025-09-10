@@ -28,6 +28,8 @@
   <script type="module" crossorigin src="bootstrap/analytics-C7yvD7Vh.js"></script>
   <link rel="stylesheet" crossorigin href="bootstrap/main-D9K-blpF.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body data-page="analytics" class="analytics-page">
@@ -237,12 +239,188 @@
 
             <!-- Main Content -->
             <main class="admin-main">
-                <div class="container-fluid p-4 p-lg-5">
-                    <h1>đây là bài viết</h1>
-                   
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                        <h5 class="card-title mb-0">Danh mục sản phẩm</h5>
+                        </div>
+                        <div class="col-auto">
+                        <div class="d-flex gap-2">
+                            <!-- Search -->
+                            <div class="position-relative">
+                            <input 
+                                type="search" 
+                                class="form-control form-control-sm" 
+                                placeholder="Search products..."
+                                x-model="searchQuery"
+                                @input="filterProducts()"
+                                style="width: 200px;"
+                            >
+                            <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
+                            </div>
 
+                            <!-- Category Filter -->
+                            <select 
+                            class="form-select form-select-sm" 
+                            x-model="categoryFilter" 
+                            @change="filterProducts()"
+                            style="width: 150px;"
+                            >
+                            <option value="">All Categories</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="books">Books</option>
+                            <option value="home">Home & Garden</option>
+                            </select>
+
+                            <!-- Stock Filter -->
+                            <select 
+                            class="form-select form-select-sm" 
+                            x-model="stockFilter" 
+                            @change="filterProducts()"
+                            style="width: 150px;"
+                            >
+                            <option value="">All Stock</option>
+                            <option value="in-stock">In Stock</option>
+                            <option value="low-stock">Low Stock</option>
+                            <option value="out-of-stock">Out of Stock</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
                 </div>
+
+
+
+
+                
+
+                <!-- Modal chỉnh sửa bài viết -->
+                <div class="modal fade" id="editArticleModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Article</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" x-model="editArticleData.title">
+                        </div>
+                        <div class="mb-3">
+                        <label class="form-label">Content</label>
+                        <textarea class="form-control" x-model="editArticleData.content" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="saveEdit()">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Table và Alpine.js -->
+                <div x-data="articlesManager()" x-init="fetchArticles()" class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                        <tr>
+                            <th style="width: 40px;">
+                            <input type="checkbox" class="form-check-input"
+                                    @change="toggleAll($event.target.checked)"
+                                    :checked="selectedArticles.length === paginatedArticles.length && paginatedArticles.length > 0">
+                            </th>
+                            <th>Bài viết</th>
+                            <th @click="sortBy('type')" class="sortable">Loại</th>
+                            <th @click="sortBy('user_id')" class="sortable">Tác giả</th>
+                            <th @click="sortBy('created_at')" class="sortable">Ngày tạo</th>
+                            <th style="width: 120px;">Hoạt động</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <template x-for="article in paginatedArticles" :key="article.id">
+                            <tr>
+                            <td><input type="checkbox" class="form-check-input" :value="article.id" x-model="selectedArticles"></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                <img :src="article.images.length ? 'http://127.0.0.1:8000/assets/img/articles/' + article.images[0].image : 'default.jpg'"
+                                    class="me-3" style="width:50px;height:50px;object-fit:cover;border-radius:5px;">
+                                <div>
+                                    <div class="fw-medium" x-text="article.title"></div>
+                                    <small class="text-muted" x-text="'ID: ' + article.id"></small>
+                                </div>
+                                </div>
+                            </td>
+                            <td><span x-text="article.type"></span></td>
+                            <td x-text="article.author_name"></td>
+                            <td x-text="new Date(article.created_at).toLocaleDateString()"></td>
+                            <td>
+                                <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-three-dots"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" @click.prevent="viewArticle(article)"><i class="bi bi-eye me-2"></i>View</a></li>
+                                    <li><a class="dropdown-item" href="#" @click.prevent="editArticle(article)"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#" @click.prevent="deleteArticle(article)"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                                </ul>
+                                </div>
+                            </td>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-between align-items-center p-3">
+                        <div class="text-muted">
+                        Showing <span x-text="(currentPage - 1) * itemsPerPage + 1"></span> to 
+                        <span x-text="Math.min(currentPage * itemsPerPage, filteredArticles.length)"></span> of 
+                        <span x-text="filteredArticles.length"></span> results
+                        </div>
+                        <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">Previous</a>
+                            </li>
+                            <template x-for="page in totalPages" :key="page">
+                            <li class="page-item" :class="{ 'active': page === currentPage }">
+                                <a class="page-link" href="#" @click.prevent="goToPage(page)" x-text="page"></a>
+                            </li>
+                            </template>
+                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">Next</a>
+                            </li>
+                        </ul>
+                        </nav>
+                    </div>
+
+                    <!-- Modal xem bài viết -->
+                    <div class="modal fade" id="viewArticleModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" x-text="modalTitle"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                            <img x-show="modalImage" :src="modalImage" class="img-fluid mb-3">
+                            <p x-text="modalContent"></p>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
             </main>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="assets/js/article.js"></script>
+
 
             <!-- Footer -->
             <footer class="admin-footer">
@@ -264,6 +442,7 @@
     <!-- Page-specific Component -->
 
     <!-- Main App Script -->
+    
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {

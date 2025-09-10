@@ -295,7 +295,7 @@
 
                 <!-- Stats Cards with Alpine.js -->
                 <div class="row g-4 mb-4">
-                    <div class="col-xl-3 col-lg-6" x-data="statsCounter(12426, 5)">
+                    <div class="col-xl-3 col-lg-6">
                         <div class="card stats-card">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -304,13 +304,32 @@
                                             <i class="bi bi-people"></i>
                                         </div>
                                     </div>
-                                    <div class="flex-grow-1 ms-3">
+                                   <div class="flex-grow-1 ms-3"
+                                        x-data="{
+                                            value: 0,
+                                            async loadUserCount() {
+                                                try {
+                                                    const res = await fetch('http://127.0.0.1:8000/api/users/count');
+                                                    const data = await res.json();
+                                                    this.value = data.total_users;
+                                                    console.log('✅ Data loaded:', this.value);
+                                                } catch (err) {
+                                                    console.error('❌ Error loading user count:', err);
+                                                }
+                                            }
+                                        }"
+                                        x-init="loadUserCount()">
+
                                         <h6 class="mb-0 text-muted">Tổng số người dùng</h6>
-                                        <h3 class="mb-0" x-text="value.toLocaleString()" data-stat-value>12,426</h3>
+                                        <h3 class="mb-0" x-text="value.toLocaleString()" data-stat-value>0</h3>
                                         <small class="text-success">
                                             <i class="bi bi-arrow-up"></i> +12.5%
                                         </small>
                                     </div>
+
+                                    
+
+
                                 </div>
                             </div>
                         </div>
@@ -325,13 +344,30 @@
                                             <i class="bi bi-graph-up"></i>
                                         </div>
                                     </div>
-                                    <div class="flex-grow-1 ms-3">
+                                    <div class="flex-grow-1 ms-3"
+                                        x-data="{
+                                            total: 0,
+                                            init() {
+                                                fetch('api/orders/revenue')
+                                                    .then(res => res.json())
+                                                    .then(data => {
+                                                        // Lấy total từ data
+                                                        this.total = Number(data.data.total) || 0;
+                                                        console.log('✅ Revenue loaded:', this.total);
+                                                    })
+                                                    .catch(err => console.error('❌ Error loading revenue:', err));
+                                            }
+                                        }"
+                                        x-init="init()">
+
                                         <h6 class="mb-0 text-muted">Doanh thu</h6>
-                                        <h3 class="mb-0">$54,320</h3>
+                                        <h3 class="mb-0" x-text="total.toLocaleString()">0</h3>
                                         <small class="text-success">
                                             <i class="bi bi-arrow-up"></i> +8.2%
                                         </small>
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -346,9 +382,23 @@
                                             <i class="bi bi-bag-check"></i>
                                         </div>
                                     </div>
-                                    <div class="flex-grow-1 ms-3">
+                                    <div class="flex-grow-1 ms-3"
+                                        x-data="{
+                                            totalOrders: 0,
+                                            init() {
+                                                fetch('http://localhost:8000/api/orders/count')
+                                                    .then(res => res.json())
+                                                    .then(data => {
+                                                        this.totalOrders = data.total_orders || 0;
+                                                        console.log('✅ Total orders loaded:', this.totalOrders);
+                                                    })
+                                                    .catch(err => console.error('❌ Error loading total orders:', err));
+                                            }
+                                        }"
+                                        x-init="init()">
+
                                         <h6 class="mb-0 text-muted">Đơn đặt hàng</h6>
-                                        <h3 class="mb-0">1,852</h3>
+                                        <h3 class="mb-0" x-text="totalOrders.toLocaleString()">0</h3>
                                         <small class="text-danger">
                                             <i class="bi bi-arrow-down"></i> -2.1%
                                         </small>
@@ -634,6 +684,14 @@
     </div>
 
     <!-- Scripts -->
+    <!-- Scripts -->
+    <script src="assets/js/orders.js" defer></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    
+    
+
+
+    
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const toggleButton = document.querySelector('[data-sidebar-toggle]');

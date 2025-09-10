@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -27,6 +28,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/users/count', [UserController::class, 'count']);
+
 
 // Orders (RESTful API)
 // Route::get('/orders', [OrderController::class, 'index']);

@@ -32,6 +32,11 @@ class ArticleController extends Controller
         }
 
         $articles = $query->with('images')->get();
+
+        $articles = $articles->map(function ($article) {
+            $article->author_name = $article->user ? $article->user->name : null;
+            return $article;
+        });
         return response()->json($articles);
     }
 
