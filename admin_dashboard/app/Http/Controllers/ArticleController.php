@@ -40,6 +40,19 @@ class ArticleController extends Controller
         return response()->json($articles);
     }
 
+    public function stats()
+    {
+        $totalArticles = Article::count(); // Tổng bài viết
+        $publishedArticles = Article::where('type', 1)->count(); // Giả sử type=1 là đã xuất bản
+        $unpublishedArticles = Article::where('type', 0)->count(); // Giả sử type=0 là chưa xuất bản
+
+        return response()->json([
+            'total' => $totalArticles,
+            'published' => $publishedArticles,
+            'unpublished' => $unpublishedArticles,
+        ]);
+    }
+
     // Tạo bài viết kèm ảnh
     public function store(Request $request)
     {

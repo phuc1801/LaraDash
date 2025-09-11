@@ -251,11 +251,9 @@
                         </div>
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-outline-secondary" @click="exportPosts()">
-                            <i class="bi bi-download me-2"></i>Export
+                            <i class="bi bi-download me-2"></i>Xuất Excel
                             </button>
-                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#bulkUpdateModal">
-                            <i class="bi bi-arrow-repeat me-2"></i>Bulk Update
-                            </button>
+                            
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#postModal">
                             <i class="bi bi-plus-lg me-2"></i>Tạo bài mới
                             </button>
@@ -314,83 +312,84 @@
 
 
                     <!-- Product Stats Widgets -->
-                    <div class="row g-4 g-lg-5 mb-5">
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card stats-card">
-                            <div class="card-body p-3 p-lg-4">
-                                <div class="d-flex align-items-center">
-                                <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
-                                    <i class="bi bi-box"></i>
-                                </div>
-                                <div x-data="productStats">
-                                    <h6 class="mb-0 text-muted">Tổng số bài viết</h6>
-                                    <h3 class="mb-0" x-text="stats.total"></h3>
-                                    <small class="text-success">
-                                    <i class="bi bi-arrow-up"></i> Đẫ được xuất bản
-                                    </small>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card stats-card">
-                            <div class="card-body p-3 p-lg-4">
-                                <div class="d-flex align-items-center">
-                                <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
-                                    <i class="bi bi-check-circle"></i>
-                                </div>
-                                <div x-data="productStats">
-                                    <h6 class="mb-0 text-muted">Bài viết đã xuất bản</h6>
-                                    <h3 class="mb-0" x-text="stats.inStock"></h3>
-                                    <small class="text-success">
-                                    <i class="bi bi-arrow-up"></i> đầy đủ
-                                    </small>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card stats-card">
-                            <div class="card-body p-3 p-lg-4">
-                                <div class="d-flex align-items-center">
-                                <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
-                                    <i class="bi bi-exclamation-triangle"></i>
-                                </div>
-                                <div x-data="productStats">
-                                    <h6 class="mb-0 text-muted">Bài viết nháp</h6>
-                                    <h3 class="mb-0" x-text="stats.outOfStock"></h3>
-                                    <small class="text-warning">
-                                    <i class="bi bi-exclamation-circle"></i> Chưa xuất bản
-                                    </small>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card stats-card">
-                            <div class="card-body p-3 p-lg-4">
-                                <div class="d-flex align-items-center">
-                                <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
-                                    <i class="bi bi-currency-dollar"></i>
-                                </div>
-                                <div x-data="productStats">
-                                    <h6 class="mb-0 text-muted">Tương tác</h6>
-                                    <h3 class="mb-0" x-text="`${stats.totalValue.toLocaleString()}`"></h3>
-                                    <small class="text-info">
-                                    <i class="bi bi-arrow-up"></i> Tổng lượt xem
-                                    </small>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
+                    <div class="row g-4 g-lg-5 mb-5" x-data="productStats" x-init="init()">
+    <div class="col-xl-3 col-lg-6">
+        <div class="card stats-card">
+            <div class="card-body p-3 p-lg-4">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
+                        <i class="bi bi-box"></i>
                     </div>
+                    <div>
+                        <h6 class="mb-0 text-muted">Tổng số bài viết</h6>
+                        <h3 class="mb-0" x-text="stats.total"></h3>
+                        <small class="text-success">
+                            <i class="bi bi-arrow-up"></i> Đã được xuất bản
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-6">
+        <div class="card stats-card">
+            <div class="card-body p-3 p-lg-4">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 text-muted">Bài viết đã xuất bản</h6>
+                        <h3 class="mb-0" x-text="stats.inStock"></h3>
+                        <small class="text-success">
+                            <i class="bi bi-arrow-up"></i> đầy đủ
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-6">
+        <div class="card stats-card">
+            <div class="card-body p-3 p-lg-4">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 text-muted">Bài viết nháp</h6>
+                        <h3 class="mb-0" x-text="stats.outOfStock"></h3>
+                        <small class="text-warning">
+                            <i class="bi bi-exclamation-circle"></i> Chưa xuất bản
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-6">
+        <div class="card stats-card">
+            <div class="card-body p-3 p-lg-4">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 text-muted">Tương tác</h6>
+                        <h3 class="mb-0" x-text="`${stats.totalValue.toLocaleString()}`"></h3>
+                        <small class="text-info">
+                            <i class="bi bi-arrow-up"></i> Tổng lượt xem
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -575,6 +574,7 @@
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
             <script src="assets/js/article.js"></script>
+            <script src="assets/js/articleStats.js"></script>
 
 
             <!-- Footer -->

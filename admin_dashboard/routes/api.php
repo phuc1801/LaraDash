@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleStatsController;
 use App\Http\Controllers\UserController;
 
 
@@ -65,6 +66,5 @@ Route::get('articles/{article}/images', [ArticleImageController::class, 'index']
 Route::post('articles/{article}/images', [ArticleImageController::class, 'store']);
 Route::put('images/{id}', [ArticleImageController::class, 'update']);
 Route::delete('images/{id}', [ArticleImageController::class, 'destroy']);
-
-
+Route::get('/articles-statistics', [ArticleStatsController::class, 'index']);
 Route::apiResource('articles', ArticleController::class);

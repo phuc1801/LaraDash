@@ -3,7 +3,7 @@ function articlesManager() {
     articles: [],
     selectedArticles: [],
     currentPage: 1,
-    itemsPerPage: 5,
+    itemsPerPage: 10,
     modalTitle: '',
     modalContent: '',
     modalImage: '',
