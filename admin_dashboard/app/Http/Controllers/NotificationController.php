@@ -71,4 +71,18 @@ class NotificationController extends Controller
 
         return response()->json(['message' => 'Notification deleted successfully']);
     }
+
+    // Lấy 5 thông báo mới nhất của tất cả người dùng
+    public function latest()
+    {
+        $notifications = Notification::orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'notifications' => $notifications
+        ]);
+    }
+
 }

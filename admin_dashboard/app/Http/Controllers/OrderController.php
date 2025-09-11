@@ -115,5 +115,75 @@ class OrderController extends Controller
     }
 
 
+    // Doanh thu theo tháng trong năm
+    public function revenueByMonth(Request $request)
+    {
+        $year = $request->input('year', date('Y'));
+
+        $revenues = Order::selectRaw('MONTH(created_at) as month, SUM(total_price) as revenue')
+            ->whereYear('created_at', $year)
+            ->where('status', 'completed') // chỉ tính đơn hoàn thành
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Chuẩn hóa dữ liệu cho chart.js
+        $labels = [];
+        $values = [];
+
+        foreach ($revenues as $row) {
+            $labels[] = "Tháng " . $row->month;
+            $values[] = (int) $row->revenue;
+        }
+
+        return response()->json([
+            'status' => true,
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
+
+
+    // Tăng trưởng bán hàng 7 ngày gần nhất
+    public function weeklyGrowth()
+    {
+        $today = \Carbon\Carbon::now('Asia/Ho_Chi_Minh')->startOfDay();
+        $startDate = $today->copy()->subDays(6); // 7 ngày: hôm nay + 6 ngày trước
+
+        $orders = Order::selectRaw('DATE(created_at) as date, SUM(total_price) as total')
+            ->whereBetween('created_at', [$startDate, $today])
+            ->where('status', 'completed')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // Khởi tạo mảng 7 ngày
+        $labels = [];
+        $values = [];
+        $datesMap = []; // map để tìm index nhanh
+
+        for ($i = 0; $i < 7; $i++) {
+            $date = $startDate->copy()->addDays($i)->format('Y-m-d'); // để map
+            $labels[] = $startDate->copy()->addDays($i)->format('d/m'); // hiển thị
+            $values[] = 0;
+            $datesMap[$date] = $i;
+        }
+
+        foreach ($orders as $order) {
+            if (isset($datesMap[$order->date])) {
+                $values[$datesMap[$order->date]] = (int) $order->total;
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
+
+
+
+
 
 }

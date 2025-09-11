@@ -39,6 +39,8 @@ Route::apiResource('users', UserController::class);
 // Orders (RESTful API)
 // Route::get('/orders', [OrderController::class, 'index']);
 // Route::get('/orders/{id}', [OrderController::class, 'show']);
+Route::get('/orders/revenue-by-month', [OrderController::class, 'revenueByMonth']);
+Route::get('/orders/weekly-growth', [OrderController::class, 'weeklyGrowth']);
 Route::get('/orders/count', [OrderController::class, 'count']);
 Route::get('/orders/status-count', [OrderController::class, 'countByStatus']);
 Route::get('/orders/revenue', [OrderController::class, 'revenue']);
@@ -79,6 +81,8 @@ Route::apiResource('coupons', CouponController::class);
 
 
 // Notification
+Route::get('/notifications/latest', [NotificationController::class, 'latest']);
+
 Route::prefix('notifications')->group(function () {
     Route::get('/user/{userId}', [NotificationController::class, 'index']);   // Danh sách theo user
     Route::get('/{id}', [NotificationController::class, 'show']);             // Chi tiết 1 thông báo
@@ -86,3 +90,4 @@ Route::prefix('notifications')->group(function () {
     Route::put('/{id}/read', [NotificationController::class, 'markAsRead']);  // Đánh dấu đã đọc
     Route::delete('/{id}', [NotificationController::class, 'destroy']);       // Xóa
 });
+

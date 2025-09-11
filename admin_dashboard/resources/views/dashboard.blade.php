@@ -41,6 +41,8 @@
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    
 </head>
 
 
@@ -439,7 +441,9 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <canvas id="revenueChart" height="250"></canvas>
+                                <div style="max-width: 100%; height: 300px;">
+                                    <canvas id="chartDoanhThu" height="250"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -492,7 +496,7 @@
                                 <h5 class="card-title mb-0">Tăng trưởng bán hàng (7 ngày qua)</h5>
                             </div>
                             <div class="card-body">
-                                <canvas id="userGrowthChart" height="200"></canvas>
+                                <canvas id="weeklySalesChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
@@ -680,8 +684,12 @@
 
     <!-- Scripts -->
     <!-- Scripts -->
+    <script src="assets/js/notifications.js" defer></script>
     <script src="assets/js/orders.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>       
     <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="assets/js/revenue-chart.js" defer></script>
+    <script src="assets/js/weekly-sales-chart.js" defer></script>
     
     
 
