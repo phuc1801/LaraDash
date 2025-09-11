@@ -271,10 +271,10 @@
                                                 <i class="bi bi-people-fill"></i>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 text-muted">Total Users</h6>
+                                                <h6 class="mb-0 text-muted">Tổng số người dùng</h6>
                                                 <h3 class="mb-0" x-text="stats.total"></h3>
                                                 <small class="text-success">
-                                                    <i class="bi bi-arrow-up"></i> +12% from last month
+                                                    <i class="bi bi-arrow-up"></i> +12% từ tháng trước
                                                 </small>
                                             </div>
                                         </div>
@@ -289,7 +289,7 @@
                                                 <i class="bi bi-person-check-fill"></i>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 text-muted">Active Users</h6>
+                                                <h6 class="mb-0 text-muted">Hoạt động</h6>
                                                 <h3 class="mb-0" x-text="stats.active"></h3>
                                                 <small class="text-success">
                                                     <i class="bi bi-arrow-up"></i> +8% from last week
@@ -307,7 +307,7 @@
                                                 <i class="bi bi-person-plus-fill"></i>
                                             </div>
                                             <div>
-                                                <h6 class="mb-0 text-muted">New This Month</h6>
+                                                <h6 class="mb-0 text-muted">Mới trong tháng này</h6>
                                                 <h3 class="mb-0" x-text="stats.newThisMonth"></h3>
                                                 <small class="text-success">
                                                     <i class="bi bi-arrow-up"></i> +15% growth
@@ -345,7 +345,7 @@
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h5 class="card-title mb-0">Users Directory</h5>
+                                        <h5 class="card-title mb-0">Thư mục người dùng</h5>
                                     </div>
                                     <div class="col-auto">
                                         <div class="d-flex gap-2">

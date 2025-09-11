@@ -9,6 +9,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleStatsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\NotificationController;
 
 
 /*
@@ -29,7 +31,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/users/statistics', [UserController::class, 'statistics']);
 Route::get('/users/count', [UserController::class, 'count']);
+Route::apiResource('users', UserController::class);
 
 
 // Orders (RESTful API)
@@ -68,3 +72,17 @@ Route::put('images/{id}', [ArticleImageController::class, 'update']);
 Route::delete('images/{id}', [ArticleImageController::class, 'destroy']);
 Route::get('/articles-statistics', [ArticleStatsController::class, 'index']);
 Route::apiResource('articles', ArticleController::class);
+
+
+// Coupon
+Route::apiResource('coupons', CouponController::class);
+
+
+// Notification
+Route::prefix('notifications')->group(function () {
+    Route::get('/user/{userId}', [NotificationController::class, 'index']);   // Danh sách theo user
+    Route::get('/{id}', [NotificationController::class, 'show']);             // Chi tiết 1 thông báo
+    Route::post('/', [NotificationController::class, 'store']);               // Thêm mới
+    Route::put('/{id}/read', [NotificationController::class, 'markAsRead']);  // Đánh dấu đã đọc
+    Route::delete('/{id}', [NotificationController::class, 'destroy']);       // Xóa
+});

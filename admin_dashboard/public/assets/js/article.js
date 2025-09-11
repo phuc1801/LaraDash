@@ -2,6 +2,7 @@ function articlesManager() {
   return {
     articles: [],
     selectedArticles: [],
+    stockFilter: '',
     currentPage: 1,
     itemsPerPage: 10,
     modalTitle: '',
@@ -39,6 +40,22 @@ function articlesManager() {
         } else if (this.categoryFilter === 'draft') {
           filtered = filtered.filter(a => a.type === 0);
         }
+      }
+
+      
+      // Filter theo ngày
+      if (this.stockFilter) {
+          const now = new Date();
+          filtered = filtered.filter(a => {
+              const created = new Date(a.created_at);
+              const diffTime = now - created; // ms
+              const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+              if (this.stockFilter === 'in-stock') return diffDays <= 1;
+              if (this.stockFilter === 'low-stock') return diffDays <= 7;
+              if (this.stockFilter === 'out-of-stock') return diffDays <= 30;
+              return true;
+          });
       }
 
       return filtered;

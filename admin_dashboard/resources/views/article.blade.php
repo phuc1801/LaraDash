@@ -421,16 +421,16 @@
 
                                         <!-- Stock Filter -->
                                         <select 
-                                        class="form-select form-select-sm" 
-                                        x-model="stockFilter" 
-                                        @change="filterProducts()"
-                                        style="width: 150px;"
+                                            class="form-select form-select-sm" 
+                                            x-model="stockFilter"
+                                            style="width: 150px;"
                                         >
-                                        <option value="">Tất cả ngày</option>
-                                        <option value="in-stock">Trong một ngày</option>
-                                        <option value="low-stock">Trong một tuần</option>
-                                        <option value="out-of-stock">Trong một tháng</option>
+                                            <option value="">Tất cả ngày</option>
+                                            <option value="in-stock">Trong một ngày</option>
+                                            <option value="low-stock">Trong một tuần</option>
+                                            <option value="out-of-stock">Trong một tháng</option>
                                         </select>
+
                                     </div>
                                 </div>
                             </div>
