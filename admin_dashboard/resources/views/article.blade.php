@@ -163,10 +163,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{ route('analytics') }}">
-                                    <i class="bi bi-graph-up"></i>
-                                    <span>Báo cáo thống kê</span>
-                                    <span class="badge bg-primary rounded-pill ms-auto">Active</span>
+                                <a class="nav-link" href="{{ route('article') }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                    <span>Bài viết</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -447,31 +446,7 @@
 
                     
 
-                    <!-- Modal chỉnh sửa bài viết -->
-                    <div class="modal fade" id="editArticleModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Article</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                            <label class="form-label">Title</label>
-                            <input type="text" class="form-control" x-model="editArticleData.title">
-                            </div>
-                            <div class="mb-3">
-                            <label class="form-label">Content</label>
-                            <textarea class="form-control" x-model="editArticleData.content" rows="5"></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" @click="saveEdit()">Save</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
+
 
                     <!-- Table và Alpine.js -->
                     <div x-data="articlesManager()" x-init="fetchArticles()" class="table-responsive">
@@ -566,6 +541,48 @@
                             </div>
                             </div>
                         </div>
+
+                                            <!-- Modal chỉnh sửa bài viết -->
+                    <div class="modal fade" id="editArticleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Article</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Title -->
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-control" x-model="editArticleData.title">
+        </div>
+
+        <!-- Content -->
+        <div class="mb-3">
+          <label class="form-label">Content</label>
+          <textarea class="form-control" x-model="editArticleData.content" rows="5"></textarea>
+        </div>
+
+        <!-- Upload new images -->
+        <div class="mb-3">
+          <label class="form-label">Upload New Images</label>
+          <input type="file" id="editImages" multiple class="form-control">
+        </div>
+
+        <!-- Preview / Delete existing images -->
+        <div class="mb-3">
+          <label class="form-label">Preview / Delete Existing Images</label>
+          <div id="editPreviewImages" class="d-flex flex-wrap"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" @click="saveEdit()">Save</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
                     </div>
                 </div>
             </main>

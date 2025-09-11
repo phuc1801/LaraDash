@@ -67,16 +67,95 @@ function articlesManager() {
 
 
     editArticle(article) {
-      this.editArticleData = {...article}; // copy dữ liệu
-      new bootstrap.Modal(document.getElementById('editArticleModal')).show();
-    },
+  this.editArticleData = { ...article, delete_images: [] };
 
-    saveEdit() {
-      const index = this.articles.findIndex(a => a.id === this.editArticleData.id);
-      if (index !== -1) this.articles[index] = {...this.editArticleData};
-      bootstrap.Modal.getInstance(document.getElementById('editArticleModal')).hide();
-    },
+  // Reset và hiển thị ảnh cũ
+  const previewContainer = document.getElementById('editPreviewImages');
+  previewContainer.innerHTML = '';
+  if (article.images) {
+    article.images.forEach(img => {
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('position-relative', 'me-2', 'mb-2');
 
+      const imageEl = document.createElement('img');
+      imageEl.src = 'http://127.0.0.1:8000/assets/img/articles/' + img.image;
+      imageEl.style.width = '80px';
+      imageEl.style.height = '80px';
+      imageEl.style.objectFit = 'cover';
+      imageEl.classList.add('border', 'rounded');
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.innerHTML = '&times;';
+      deleteBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'position-absolute', 'top-0', 'end-0');
+      deleteBtn.style.transform = 'translate(50%, -50%)';
+      deleteBtn.addEventListener('click', () => {
+        this.editArticleData.delete_images.push(img.id);
+        wrapper.remove();
+      });
+
+      wrapper.appendChild(imageEl);
+      wrapper.appendChild(deleteBtn);
+      previewContainer.appendChild(wrapper);
+    });
+  }
+
+  // Reset input file
+  const imagesInput = document.getElementById('editImages');
+  imagesInput.value = '';
+  imagesInput.onchange = () => {}; // sẽ handle khi save
+
+  new bootstrap.Modal(document.getElementById('editArticleModal')).show();
+},
+
+
+
+async saveEdit() {
+  try {
+    const formData = new FormData();
+    formData.append('_method', 'PATCH');
+    formData.append('title', this.editArticleData.title);
+    formData.append('content', this.editArticleData.content);
+
+    // Xóa ảnh cũ
+    this.editArticleData.delete_images?.forEach(id => {
+      formData.append('delete_images[]', id);
+    });
+
+    // Thêm ảnh mới
+    const imagesInput = document.getElementById('editImages');
+    if (imagesInput?.files.length) {
+      Array.from(imagesInput.files).forEach(file => {
+        formData.append('images[]', file);
+      });
+    }
+
+    const res = await axios.post(
+      `http://127.0.0.1:8000/api/articles/${this.editArticleData.id}`,
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    );
+
+    // Cập nhật local array
+    const index = this.articles.findIndex(a => a.id === this.editArticleData.id);
+    if (index !== -1) this.articles[index] = res.data;
+
+    bootstrap.Modal.getInstance(document.getElementById('editArticleModal'))?.hide();
+    alert('Cập nhật bài viết thành công!');
+
+  } catch (err) {
+    console.error(err.response?.data || err);
+    alert('Cập nhật thất bại! Xem console để biết chi tiết.');
+  }
+},
+
+
+
+
+
+
+
+
+    
     deleteArticle(article) {
         if (!confirm(`Bạn có chắc muốn xóa bài "${article.title}" không?`)) return;
 

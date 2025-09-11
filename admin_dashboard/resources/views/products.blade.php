@@ -157,9 +157,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('analytics') }}">
-                                    <i class="bi bi-graph-up"></i>
-                                    <span>Báo cáo thống kê</span>
+                                <a class="nav-link" href="{{ route('article') }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                    <span>Bài viết</span>
                                 </a>
                             </li>
                             <li class="nav-item">

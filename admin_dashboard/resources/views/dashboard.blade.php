@@ -181,12 +181,7 @@
                                 <span>Trang chủ</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('analytics') }}">
-                                <i class="bi bi-graph-up"></i>
-                                <span>Báo cáo thống kê</span>
-                            </a>
-                        </li>
+                        
 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('article') }}">
