@@ -163,7 +163,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{ route('analytics') }}">">
+                                <a class="nav-link active" href="{{ route('analytics') }}">
                                     <i class="bi bi-graph-up"></i>
                                     <span>Báo cáo thống kê</span>
                                     <span class="badge bg-primary rounded-pill ms-auto">Active</span>
@@ -249,7 +249,7 @@
                             Theo dõi bài viết, quản lý việc xuất bản và phân tích hiệu quả nội dung
                             </p>
                         </div>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2" x-data="exportPostsComponent" x-init="init()">
                             <button type="button" class="btn btn-outline-secondary" @click="exportPosts()">
                             <i class="bi bi-download me-2"></i>Xuất Excel
                             </button>
@@ -405,7 +405,7 @@
                                 <input 
                                     type="search" 
                                     class="form-control form-control-sm" 
-                                    placeholder="Search products..."
+                                    placeholder="Tìm kiếm bài viết..."
                                     x-model="searchQuery"
                                     @input="filterProducts()"
                                     style="width: 200px;"
@@ -420,11 +420,9 @@
                                 @change="filterProducts()"
                                 style="width: 150px;"
                                 >
-                                <option value="">All Categories</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="books">Books</option>
-                                <option value="home">Home & Garden</option>
+                                <option value="">Tất cả bài viết</option>
+                                <option value="electronics">Đã xuất bản</option>
+                                <option value="clothing">Chưa xuất bản</option>                               
                                 </select>
 
                                 <!-- Stock Filter -->
@@ -434,10 +432,10 @@
                                 @change="filterProducts()"
                                 style="width: 150px;"
                                 >
-                                <option value="">All Stock</option>
-                                <option value="in-stock">In Stock</option>
-                                <option value="low-stock">Low Stock</option>
-                                <option value="out-of-stock">Out of Stock</option>
+                                <option value="">Tất cả ngày</option>
+                                <option value="in-stock">Trong một ngày</option>
+                                <option value="low-stock">Trong một tuần</option>
+                                <option value="out-of-stock">Trong một tháng</option>
                                 </select>
                             </div>
                             </div>
@@ -575,6 +573,9 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
             <script src="assets/js/article.js"></script>
             <script src="assets/js/articleStats.js"></script>
+            <script src="assets/js/articleExport.js"></script>
+            
+
 
 
             <!-- Footer -->
@@ -629,5 +630,6 @@
         }
       });
     </script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </body>
 </html> 
