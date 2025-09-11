@@ -9,6 +9,10 @@ function articlesManager() {
     modalImage: '',
     editArticleData: {},
 
+    // Thêm biến cho search và filter
+    searchQuery: '',
+    categoryFilter: '',
+
     fetchArticles() {
       fetch('http://127.0.0.1:8000/api/articles')
         .then(res => res.json())
@@ -17,8 +21,30 @@ function articlesManager() {
     },
 
     get filteredArticles() {
-      return this.articles;
+      let filtered = this.articles;
+
+      // Search theo title
+      if (this.searchQuery) {
+        const q = this.searchQuery.toLowerCase();
+        filtered = filtered.filter(a =>
+          a.title.toLowerCase().includes(q) ||
+          String(a.type).toLowerCase().includes(q)
+        );
+      }
+
+      // Filter theo category/status
+      if (this.categoryFilter) {
+        if (this.categoryFilter === 'published') {
+          filtered = filtered.filter(a => a.type === 1);
+        } else if (this.categoryFilter === 'draft') {
+          filtered = filtered.filter(a => a.type === 0);
+        }
+      }
+
+      return filtered;
     },
+
+
 
     get paginatedArticles() {
       const start = (this.currentPage - 1) * this.itemsPerPage;
@@ -40,6 +66,10 @@ function articlesManager() {
       } else {
         this.selectedArticles = [];
       }
+    },
+
+    filterProducts() {
+      this.currentPage = 1; // reset page khi filter/search
     },
 
     viewArticle(article) {

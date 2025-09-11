@@ -312,144 +312,130 @@
 
                     <!-- Product Stats Widgets -->
                     <div class="row g-4 g-lg-5 mb-5" x-data="productStats" x-init="init()">
-    <div class="col-xl-3 col-lg-6">
-        <div class="card stats-card">
-            <div class="card-body p-3 p-lg-4">
-                <div class="d-flex align-items-center">
-                    <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
-                        <i class="bi bi-box"></i>
-                    </div>
-                    <div>
-                        <h6 class="mb-0 text-muted">Tổng số bài viết</h6>
-                        <h3 class="mb-0" x-text="stats.total"></h3>
-                        <small class="text-success">
-                            <i class="bi bi-arrow-up"></i> Đã được xuất bản
-                        </small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-lg-6">
-        <div class="card stats-card">
-            <div class="card-body p-3 p-lg-4">
-                <div class="d-flex align-items-center">
-                    <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
-                        <i class="bi bi-check-circle"></i>
-                    </div>
-                    <div>
-                        <h6 class="mb-0 text-muted">Bài viết đã xuất bản</h6>
-                        <h3 class="mb-0" x-text="stats.inStock"></h3>
-                        <small class="text-success">
-                            <i class="bi bi-arrow-up"></i> đầy đủ
-                        </small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-lg-6">
-        <div class="card stats-card">
-            <div class="card-body p-3 p-lg-4">
-                <div class="d-flex align-items-center">
-                    <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
-                        <i class="bi bi-exclamation-triangle"></i>
-                    </div>
-                    <div>
-                        <h6 class="mb-0 text-muted">Bài viết nháp</h6>
-                        <h3 class="mb-0" x-text="stats.outOfStock"></h3>
-                        <small class="text-warning">
-                            <i class="bi bi-exclamation-circle"></i> Chưa xuất bản
-                        </small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-lg-6">
-        <div class="card stats-card">
-            <div class="card-body p-3 p-lg-4">
-                <div class="d-flex align-items-center">
-                    <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
-                        <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div>
-                        <h6 class="mb-0 text-muted">Tương tác</h6>
-                        <h3 class="mb-0" x-text="`${stats.totalValue.toLocaleString()}`"></h3>
-                        <small class="text-info">
-                            <i class="bi bi-arrow-up"></i> Tổng lượt xem
-                        </small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-                    <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col">
-                            <h5 class="card-title mb-0">Danh mục sản phẩm</h5>
-                            </div>
-                            <div class="col-auto">
-                            <div class="d-flex gap-2">
-                                <!-- Search -->
-                                <div class="position-relative">
-                                <input 
-                                    type="search" 
-                                    class="form-control form-control-sm" 
-                                    placeholder="Tìm kiếm bài viết..."
-                                    x-model="searchQuery"
-                                    @input="filterProducts()"
-                                    style="width: 200px;"
-                                >
-                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card stats-card">
+                                <div class="card-body p-3 p-lg-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
+                                            <i class="bi bi-box"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 text-muted">Tổng số bài viết</h6>
+                                            <h3 class="mb-0" x-text="stats.total"></h3>
+                                            <small class="text-success">
+                                                <i class="bi bi-arrow-up"></i> Đã được xuất bản
+                                            </small>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <!-- Category Filter -->
-                                <select 
-                                class="form-select form-select-sm" 
-                                x-model="categoryFilter" 
-                                @change="filterProducts()"
-                                style="width: 150px;"
-                                >
-                                <option value="">Tất cả bài viết</option>
-                                <option value="electronics">Đã xuất bản</option>
-                                <option value="clothing">Chưa xuất bản</option>                               
-                                </select>
-
-                                <!-- Stock Filter -->
-                                <select 
-                                class="form-select form-select-sm" 
-                                x-model="stockFilter" 
-                                @change="filterProducts()"
-                                style="width: 150px;"
-                                >
-                                <option value="">Tất cả ngày</option>
-                                <option value="in-stock">Trong một ngày</option>
-                                <option value="low-stock">Trong một tuần</option>
-                                <option value="out-of-stock">Trong một tháng</option>
-                                </select>
                             </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card stats-card">
+                                <div class="card-body p-3 p-lg-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
+                                            <i class="bi bi-check-circle"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 text-muted">Bài viết đã xuất bản</h6>
+                                            <h3 class="mb-0" x-text="stats.inStock"></h3>
+                                            <small class="text-success">
+                                                <i class="bi bi-arrow-up"></i> đầy đủ
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card stats-card">
+                                <div class="card-body p-3 p-lg-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
+                                            <i class="bi bi-exclamation-triangle"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 text-muted">Bài viết nháp</h6>
+                                            <h3 class="mb-0" x-text="stats.outOfStock"></h3>
+                                            <small class="text-warning">
+                                                <i class="bi bi-exclamation-circle"></i> Chưa xuất bản
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card stats-card">
+                                <div class="card-body p-3 p-lg-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
+                                            <i class="bi bi-currency-dollar"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 text-muted">Tương tác</h6>
+                                            <h3 class="mb-0" x-text="`${stats.totalValue.toLocaleString()}`"></h3>
+                                            <small class="text-info">
+                                                <i class="bi bi-arrow-up"></i> Tổng lượt xem
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-
-
-
-                    
-
-
-
                     <!-- Table và Alpine.js -->
                     <div x-data="articlesManager()" x-init="fetchArticles()" class="table-responsive">
+
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                <h5 class="card-title mb-0">Danh mục sản phẩm</h5>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="d-flex gap-2">
+                                        <!-- Search -->
+                                        <div class="position-relative">
+                                        <input type="search" class="form-control form-control-sm"
+                                            placeholder="Tìm kiếm bài viết..."
+                                            x-model="searchQuery"
+                                            @input="filterProducts()"
+                                            style="width: 200px;">
+                                        <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
+                                        </div>
+
+                                        <!-- Category Filter -->
+                                        <select class="form-select form-select-sm"
+                                                x-model="categoryFilter"
+                                                @change="filterProducts()"
+                                                style="width: 150px;">
+                                            <option value="">Tất cả bài viết</option>
+                                            <option value="published">Đã xuất bản</option>
+                                            <option value="draft">Chưa xuất bản</option>                               
+                                        </select>
+
+                                        <!-- Stock Filter -->
+                                        <select 
+                                        class="form-select form-select-sm" 
+                                        x-model="stockFilter" 
+                                        @change="filterProducts()"
+                                        style="width: 150px;"
+                                        >
+                                        <option value="">Tất cả ngày</option>
+                                        <option value="in-stock">Trong một ngày</option>
+                                        <option value="low-stock">Trong một tuần</option>
+                                        <option value="out-of-stock">Trong một tháng</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <table class="table table-hover mb-0">
                             <thead class="table-light">
                             <tr>
