@@ -42,3 +42,38 @@ function couponSidebar() {
         }
     }
 }
+
+
+function couponFormComponent() {
+    return {
+        isFormVisible: false,
+        newCoupon: {
+            name: '',
+            code: '',
+            value: '',
+            expiry_date: '',
+            product_id: ''
+        },
+        openForm() {
+            this.isFormVisible = true;
+        },
+        closeForm() {
+            this.isFormVisible = false;
+        },
+        submitNewCoupon() {
+            fetch('http://127.0.0.1:8000/api/coupons', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.newCoupon)
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert('Đã thêm mã giảm giá: ' + data.name);
+                this.closeForm();
+                this.newCoupon = { name: '', code: '', value: '', expiry_date: '', product_id: '' };
+            })
+            .catch(err => console.error(err));
+        }
+    }
+}
+

@@ -246,9 +246,48 @@
                                 <button type="button" class="btn btn-outline-secondary" @click="exportCalendar()">
                                     <i class="bi bi-download me-2"></i>Export
                                 </button>
-                                <button type="button" class="btn btn-primary" @click="addEvent()">
-                                    <i class="bi bi-plus-lg me-2"></i>Add Event
+ 
+                                <div x-data="couponFormComponent()">
+                                <!-- Nút mở form -->
+                                <button type="button" class="btn btn-primary" @click="openForm()">
+                                    <i class="bi bi-plus-lg me-2"></i>Thêm mã giảm giá
                                 </button>
+
+                                <!-- Form thêm coupon (nổi cao) -->
+                                <div x-show="isFormVisible" x-cloak
+                                    class="position-fixed top-50 start-50 translate-middle card p-4 border shadow-lg bg-white"
+                                    style="width: 550px; z-index: 1050;">
+                                    <h6>Thêm mã giảm giá mới</h6>
+                                    <form @submit.prevent="submitNewCoupon">
+                                        <div class="mb-2">
+                                            <label class="form-label">Tên coupon</label>
+                                            <input type="text" class="form-control" x-model="newCoupon.name" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Mã</label>
+                                            <input type="text" class="form-control" x-model="newCoupon.code" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Giá trị</label>
+                                            <input type="number" class="form-control" x-model="newCoupon.value" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Ngày hết hạn</label>
+                                            <input type="datetime-local" class="form-control" x-model="newCoupon.expiry_date" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Sản phẩm ID</label>
+                                            <input type="number" class="form-control" x-model="newCoupon.product_id" required>
+                                        </div>
+                                        <div class="d-flex gap-2 mt-2">
+                                            <button type="submit" class="btn btn-success">Lưu</button>
+                                            <button type="button" class="btn btn-secondary" @click="closeForm()">Hủy</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
                             </div>
                         </div>
 
