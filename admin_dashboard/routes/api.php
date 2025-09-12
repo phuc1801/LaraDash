@@ -82,6 +82,7 @@ Route::apiResource('articles', ArticleController::class);
 
 
 // Coupon
+Route::get('/coupons/count', [CouponController::class, 'count']);
 Route::apiResource('coupons', CouponController::class);
 
 

@@ -73,4 +73,12 @@ class CouponController extends Controller
 
         return response()->json(['message' => 'Coupon deleted successfully']);
     }
+
+    public function count()
+    {
+        $totalCoupons = Coupon::count();
+        return response()->json([
+            'total_coupons' => $totalCoupons
+        ]);
+    }
 }

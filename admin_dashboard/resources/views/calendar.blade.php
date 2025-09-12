@@ -307,64 +307,38 @@
                                 </div>
 
                                 <!-- Event Categories -->
-                                <div class="event-categories">
-                                    <h6 class="category-title">Event Categories</h6>
+                                <div x-data="couponCategory()" x-init="init()" class="event-categories">
+                                    <h6 class="category-title">Danh mục sự kiện</h6>
                                     <div class="category-list">
                                         <label class="category-item">
                                             <input type="checkbox" x-model="visibleTypes" value="event" class="form-check-input">
                                             <span class="category-color" style="background: var(--bs-primary);"></span>
-                                            <span class="category-name">Events</span>
-                                            <span class="category-count" x-text="getCategoryCount('event')"></span>
+                                            <span class="category-name">Mã giảm giá</span>
+                                            <span class="category-count" x-text="getCount('event')"></span>
                                         </label>
-                                        <label class="category-item">
-                                            <input type="checkbox" x-model="visibleTypes" value="meeting" class="form-check-input">
-                                            <span class="category-color" style="background: var(--bs-success);"></span>
-                                            <span class="category-name">Meetings</span>
-                                            <span class="category-count" x-text="getCategoryCount('meeting')"></span>
-                                        </label>
-                                        <label class="category-item">
-                                            <input type="checkbox" x-model="visibleTypes" value="task" class="form-check-input">
-                                            <span class="category-color" style="background: var(--bs-warning);"></span>
-                                            <span class="category-name">Tasks</span>
-                                            <span class="category-count" x-text="getCategoryCount('task')"></span>
-                                        </label>
-                                        <label class="category-item">
-                                            <input type="checkbox" x-model="visibleTypes" value="reminder" class="form-check-input">
-                                            <span class="category-color" style="background: #8b5cf6;"></span>
-                                            <span class="category-name">Reminders</span>
-                                            <span class="category-count" x-text="getCategoryCount('reminder')"></span>
-                                        </label>
-                                        <label class="category-item">
-                                            <input type="checkbox" x-model="visibleTypes" value="deadline" class="form-check-input">
-                                            <span class="category-color" style="background: var(--bs-danger);"></span>
-                                            <span class="category-name">Deadlines</span>
-                                            <span class="category-count" x-text="getCategoryCount('deadline')"></span>
-                                        </label>
+                                       
                                     </div>
                                 </div>
 
                                 <!-- Upcoming Events -->
                                 <div class="upcoming-events">
-                                    <h6 class="upcoming-title">Upcoming Events</h6>
-                                    <div class="upcoming-list">
-                                        <template x-for="event in upcomingEvents.slice(0, 5)" :key="event.id">
-                                            <div class="upcoming-item" @click="viewEvent(event)">
-                                                <div class="upcoming-time">
-                                                    <span class="time" x-text="event.timeStr"></span>
-                                                    <span class="date" x-text="event.dateStr"></span>
-                                                </div>
+                                    <h6 class="upcoming-title">Chi tiết mã giảm giá</h6>
+                                    <div class="upcoming-list" x-data="couponSidebar()" x-init="loadCoupons()">
+                                        <template x-for="coupon in upcomingCoupons.slice(0, 5)" :key="coupon.id">
+                                            <div class="upcoming-item" @click="viewCoupon(coupon)">
                                                 <div class="upcoming-content">
-                                                    <h6 class="upcoming-event-title" x-text="event.title"></h6>
-                                                    <p class="upcoming-description" x-text="event.description"></p>
+                                                    <h6 class="upcoming-event-title" x-text="coupon.name"></h6>
+                                                    <p class="upcoming-description">Mã: <span x-text="coupon.code"></span></p>
+                                                    <p class="upcoming-description text-success">Giảm: <span x-text="formatPrice(coupon.value)"></span></p>
+                                                    <p class="upcoming-description">Sản phẩm: <span x-text="coupon.product.name"></span></p>
                                                 </div>
-                                                <div class="upcoming-indicator" :style="`background: ${getCategoryColor(event.type)}`"></div>
                                             </div>
                                         </template>
-                                        
+
                                         <!-- Empty state -->
-                                        <div x-show="upcomingEvents.length === 0" class="upcoming-empty">
+                                        <div x-show="upcomingCoupons.length === 0" class="upcoming-empty">
                                             <i class="bi bi-calendar-check"></i>
-                                            <p>No upcoming events</p>
+                                            <p>Không có coupon nào</p>
                                         </div>
                                     </div>
                                 </div>
@@ -776,6 +750,9 @@
     <!-- Page-specific Component -->
 
     <!-- Main App Script -->
+
+    
+    <script src="assets/js/coupon.js" defer></script>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
