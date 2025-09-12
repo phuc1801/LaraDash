@@ -275,7 +275,7 @@
                                 title="Refresh data">
                             <i class="bi bi-arrow-clockwise icon-hover"></i>
                         </button>
-                        <button id="exportExcel" type="button" class="btn btn-outline-secondary" 
+                        <button id="exportPdf" type="button" class="btn btn-outline-secondary" 
                                 data-bs-toggle="tooltip" 
                                 title="Export data">
                             <i class="bi bi-download icon-hover"></i>
@@ -691,7 +691,8 @@
     <script src="assets/js/warehouse-status-chart.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <script src="assets/js/sales-location-chart.js" defer></script>
-    <script type="module" src="assets/js/export-excel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script type="module" src="assets/js/export-pdf.js"></script>
     
     
 
