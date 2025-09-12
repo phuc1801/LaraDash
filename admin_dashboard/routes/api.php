@@ -39,11 +39,16 @@ Route::apiResource('users', UserController::class);
 // Orders (RESTful API)
 // Route::get('/orders', [OrderController::class, 'index']);
 // Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+Route::get('/orders/region', [OrderController::class, 'ordersByUserRegion']);
+Route::get('/orders/latest', [OrderController::class, 'latestOrders']);
+Route::get('orders/status-frequency', [OrderController::class, 'statusFrequency']);
 Route::get('/orders/revenue-by-month', [OrderController::class, 'revenueByMonth']);
 Route::get('/orders/weekly-growth', [OrderController::class, 'weeklyGrowth']);
 Route::get('/orders/count', [OrderController::class, 'count']);
 Route::get('/orders/status-count', [OrderController::class, 'countByStatus']);
 Route::get('/orders/revenue', [OrderController::class, 'revenue']);
+Route::get('/warehouse-status', [OrderController::class, 'warehouseStatus']);
 
 
 

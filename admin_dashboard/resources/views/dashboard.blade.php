@@ -42,6 +42,7 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     
 </head>
 
@@ -268,25 +269,18 @@
                         <p class="text-muted mb-0">Chào mừng trở lại! Sau đây là những gì đang diễn ra.</p>
                     </div>
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-primary">
-                            <i class="bi bi-plus-lg me-2"></i>
-                            New Item
-                        </button>
+                        
                         <button type="button" class="btn btn-outline-secondary" 
                                 data-bs-toggle="tooltip" 
                                 title="Refresh data">
                             <i class="bi bi-arrow-clockwise icon-hover"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" 
+                        <button id="exportExcel" type="button" class="btn btn-outline-secondary" 
                                 data-bs-toggle="tooltip" 
                                 title="Export data">
                             <i class="bi bi-download icon-hover"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" 
-                                data-bs-toggle="tooltip" 
-                                title="Settings">
-                            <i class="bi bi-gear icon-hover"></i>
-                        </button>
+                        
                     </div>
                 </div>
 
@@ -507,7 +501,7 @@
                                 <h5 class="card-title mb-0">Phân phối trạng thái đơn hàng</h5>
                             </div>
                             <div class="card-body">
-                                <canvas id="orderStatusChart" height="200"></canvas>
+                                <canvas id="orderStatusBarChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
@@ -533,7 +527,7 @@
                                                 <th>Date</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="recent-orders-table">
+                                        <tbody id="latest-orders-table">
                                             <!-- Orders will be injected here by dashboard.js -->
                                         </tbody>
                                     </table>
@@ -546,10 +540,11 @@
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title mb-0">Trạng thái lưu trữ</h5>
+                                <h5 class="card-title mb-0">Trạng thái lưu trữ kho</h5>
                             </div>
                             <div class="card-body">
-                                <div id="storageStatusChart"></div>
+                                <!-- <div id="storageStatusChart"></div> -->
+                                <canvas id="warehouseStatusChart" height="250"></canvas>
                             </div>
                         </div>
                     </div>
@@ -563,7 +558,7 @@
                                 <h5 class="card-title mb-0">Bán hàng theo địa điểm</h5>
                             </div>
                             <div class="card-body">
-                                <div id="salesByLocationChart" style="min-height: 400px; width: 100%;"></div>
+                                <div id="salesLocationChart" style="min-height: 400px; width: 100%;"></div>
                             </div>
                         </div>
                     </div>
@@ -690,6 +685,13 @@
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script src="assets/js/revenue-chart.js" defer></script>
     <script src="assets/js/weekly-sales-chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="assets/js/status-chart.js" defer></script>
+    <script src="assets/js/dashboard.js" defer></script>
+    <script src="assets/js/warehouse-status-chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script src="assets/js/sales-location-chart.js" defer></script>
+    <script type="module" src="assets/js/export-excel.js"></script>
     
     
 

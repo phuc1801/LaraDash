@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\OrderItem;
 
 class OrderController extends Controller
 {
@@ -179,6 +181,96 @@ class OrderController extends Controller
             'status' => true,
             'labels' => $labels,
             'values' => $values
+        ]);
+    }
+
+    // Thêm vào OrderController
+    public function statusFrequency()
+    {
+        // Lấy danh sách các trạng thái và số lượng tương ứng
+        $statuses = Order::selectRaw('status, COUNT(*) as count')
+            ->groupBy('status')
+            ->get();
+
+        $labels = [];
+        $values = [];
+
+        foreach ($statuses as $status) {
+            $labels[] = ucfirst($status->status); // Ví dụ: Pending, Completed
+            $values[] = (int) $status->count;
+        }
+
+        return response()->json([
+            'status' => true,
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
+
+
+    // Lấy 5 đơn hàng gần nhất
+    public function latestOrders()
+    {
+        $orders = Order::with(['user', 'shippingAddress'])
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'orders' => $orders
+        ]);
+    }
+
+
+    public function warehouseStatus()
+    {
+        // Tổng dung lượng kho thực tế: sum tất cả stock của sản phẩm
+        $totalCapacity = Product::sum('quantity');
+
+        // Tổng số lượng hàng đã dùng: sum quantity từ order items của các order chưa hủy
+        $used = OrderItem::whereHas('order', function($query) {
+            $query->where('status', '!=', 'cancelled');
+        })->sum('quantity');
+
+        $free = max($totalCapacity - $used, 0);
+        $percentUsed = $totalCapacity > 0 ? round(($used / $totalCapacity) * 100, 2) : 0;
+
+        return response()->json([
+            'status' => true,
+            'data' => [
+                'total' => $totalCapacity,
+                'used' => $used,
+                'free' => $free,
+                'percentUsed' => $percentUsed
+            ]
+        ]);
+    }
+
+    // Thống kê đơn hàng theo khu vực dựa vào địa chỉ user
+    public function ordersByUserRegion()
+    {
+        $orders = Order::selectRaw('users.address as region, COUNT(*) as total_orders, SUM(total_price) as total_revenue')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->groupBy('users.address')
+            ->orderBy('total_orders', 'desc')
+            ->get();
+
+        $labels = [];
+        $orderCounts = [];
+        $revenues = [];
+
+        foreach ($orders as $order) {
+            $labels[] = $order->region ?: 'Chưa xác định'; // nếu address null
+            $orderCounts[] = (int) $order->total_orders;
+            $revenues[] = (float) $order->total_revenue;
+        }
+
+        return response()->json([
+            'status' => true,
+            'labels' => $labels,          // tên khu vực
+            'order_counts' => $orderCounts, // số lượng đơn
+            'revenues' => $revenues        // tổng doanh thu
         ]);
     }
 
